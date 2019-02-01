@@ -1,0 +1,33 @@
+{
+  "name": "celer-web-sdk",
+  "version": "0.8.0",
+  "description": "JavaScript library to interact with a local cNode",
+  "scripts": {
+    "clean": "rm -rf dist tsout",
+    "build": "tsc -p . && parcel build --global celer src/index.ts",
+    "demo": "npm run build && parcel serve -o demodist demo/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "https://github.com/celer-network/celer-web-sdk",
+  "author": {
+    "name": "Michael Zhou",
+    "email": "zhoumotongxue008@gmail.com"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "parcel-bundler": "^1.11.0",
+    "typescript": "^3.3.1"
+  },
+  "dependencies": {
+    "@improbable-eng/grpc-web": "^0.8.0",
+    "@types/google-protobuf": "^3.2.7",
+    "google-protobuf": "^3.7.0-rc.2",
+    "ts-protoc-gen": "^0.9.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}
