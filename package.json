@@ -1,11 +1,11 @@
 {
   "name": "celer-web-sdk",
   "version": "0.8.0",
-  "description": "JavaScript library to interact with a local cNode",
+  "description": "JavaScript library to interact with a local Celer node",
   "scripts": {
-    "clean": "rm -rf dist tsout",
+    "clean": "rm -rf dist tsout demoout",
     "build": "tsc -p . && parcel build --global celer src/index.ts",
-    "demo": "npm run build && parcel serve -o demodist demo/index.html",
+    "demo": "npm run build && parcel serve -d demoout demo/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "https://github.com/celer-network/celer-web-sdk",

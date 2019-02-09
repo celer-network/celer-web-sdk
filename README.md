@@ -1,6 +1,6 @@
 # Celer Web SDK
 
-JavaScript library to interact with a local Celer Node
+JavaScript library to interact with a local Celer node
 
 ## Building
 
@@ -12,7 +12,7 @@ npm run build
 The built library will be at `dist/index.js`. 
 
 ## Usage
-Run a Celer Node with
+Run a Celer node with
 ```
 go run $GOCELER/webapi/cmd/main.go -keystore <path-to-keystore-json> -config <path-to-profile-json>
 ```
@@ -21,7 +21,7 @@ The web API server will be started at `http://localhost:29979`.
 The built SDK library exports a global `celer` namespace. All APIs are exposed on a Celer client object created by `new celer.Client(endpoint)`.
 
 Alternatively, you can import the library as a CommonJS module like:
-```
+```javascript
 const celer = require('celer-web-sdk');
 ```
 
