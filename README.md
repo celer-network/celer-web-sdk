@@ -1,5 +1,7 @@
 # Celer Web SDK
 
+[![Build Status](https://travis-ci.com/celer-network/Celer-Web-SDK.svg?branch=master)](https://travis-ci.com/celer-network/Celer-Web-SDK)
+
 JavaScript library to interact with a local Celer node
 
 ## Building
