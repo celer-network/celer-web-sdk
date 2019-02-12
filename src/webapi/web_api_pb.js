@@ -12,7 +12,7 @@ var goog = jspb;
 var global = Function('return this')();
 
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js');
-goog.exportSymbol('proto.webrpc.AckStateMessage', null, global);
+goog.exportSymbol('proto.webrpc.AckStateRequest', null, global);
 goog.exportSymbol('proto.webrpc.Condition', null, global);
 goog.exportSymbol('proto.webrpc.CreateAppSessionRequest', null, global);
 goog.exportSymbol('proto.webrpc.CreateAppSessionResponse', null, global);
@@ -23,11 +23,12 @@ goog.exportSymbol('proto.webrpc.GetBalanceRequest', null, global);
 goog.exportSymbol('proto.webrpc.GetBalanceResponse', null, global);
 goog.exportSymbol('proto.webrpc.OpenChannelRequest', null, global);
 goog.exportSymbol('proto.webrpc.OpenChannelResponse', null, global);
+goog.exportSymbol('proto.webrpc.ReceiveStatesRequest', null, global);
 goog.exportSymbol('proto.webrpc.RegisterOracleRequest', null, global);
 goog.exportSymbol('proto.webrpc.ResolveOracleRequest', null, global);
 goog.exportSymbol('proto.webrpc.SendConditionalPaymentRequest', null, global);
 goog.exportSymbol('proto.webrpc.SendConditionalPaymentResponse', null, global);
-goog.exportSymbol('proto.webrpc.SendStateMessage', null, global);
+goog.exportSymbol('proto.webrpc.SendStateRequest', null, global);
 goog.exportSymbol('proto.webrpc.SettleAppSessionRequest', null, global);
 goog.exportSymbol('proto.webrpc.SettleAppSessionResponse', null, global);
 goog.exportSymbol('proto.webrpc.StateMessage', null, global);
@@ -2744,12 +2745,12 @@ proto.webrpc.StateMessage.prototype.setState = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.webrpc.SendStateMessage = function(opt_data) {
+proto.webrpc.SendStateRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.webrpc.SendStateMessage, jspb.Message);
+goog.inherits(proto.webrpc.SendStateRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.webrpc.SendStateMessage.displayName = 'proto.webrpc.SendStateMessage';
+  proto.webrpc.SendStateRequest.displayName = 'proto.webrpc.SendStateRequest';
 }
 
 
@@ -2764,8 +2765,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.webrpc.SendStateMessage.prototype.toObject = function(opt_includeInstance) {
-  return proto.webrpc.SendStateMessage.toObject(opt_includeInstance, this);
+proto.webrpc.SendStateRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.webrpc.SendStateRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -2774,11 +2775,11 @@ proto.webrpc.SendStateMessage.prototype.toObject = function(opt_includeInstance)
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.webrpc.SendStateMessage} msg The msg instance to transform.
+ * @param {!proto.webrpc.SendStateRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.webrpc.SendStateMessage.toObject = function(includeInstance, msg) {
+proto.webrpc.SendStateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     sessionId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     destination: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -2796,23 +2797,23 @@ proto.webrpc.SendStateMessage.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.webrpc.SendStateMessage}
+ * @return {!proto.webrpc.SendStateRequest}
  */
-proto.webrpc.SendStateMessage.deserializeBinary = function(bytes) {
+proto.webrpc.SendStateRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.webrpc.SendStateMessage;
-  return proto.webrpc.SendStateMessage.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.webrpc.SendStateRequest;
+  return proto.webrpc.SendStateRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.webrpc.SendStateMessage} msg The message object to deserialize into.
+ * @param {!proto.webrpc.SendStateRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.webrpc.SendStateMessage}
+ * @return {!proto.webrpc.SendStateRequest}
  */
-proto.webrpc.SendStateMessage.deserializeBinaryFromReader = function(msg, reader) {
+proto.webrpc.SendStateRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2844,9 +2845,9 @@ proto.webrpc.SendStateMessage.deserializeBinaryFromReader = function(msg, reader
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.webrpc.SendStateMessage.prototype.serializeBinary = function() {
+proto.webrpc.SendStateRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.webrpc.SendStateMessage.serializeBinaryToWriter(this, writer);
+  proto.webrpc.SendStateRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2854,11 +2855,11 @@ proto.webrpc.SendStateMessage.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.webrpc.SendStateMessage} message
+ * @param {!proto.webrpc.SendStateRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.webrpc.SendStateMessage.serializeBinaryToWriter = function(message, writer) {
+proto.webrpc.SendStateRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getSessionId();
   if (f.length > 0) {
@@ -2888,13 +2889,13 @@ proto.webrpc.SendStateMessage.serializeBinaryToWriter = function(message, writer
  * optional string session_id = 1;
  * @return {string}
  */
-proto.webrpc.SendStateMessage.prototype.getSessionId = function() {
+proto.webrpc.SendStateRequest.prototype.getSessionId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.webrpc.SendStateMessage.prototype.setSessionId = function(value) {
+proto.webrpc.SendStateRequest.prototype.setSessionId = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -2903,13 +2904,13 @@ proto.webrpc.SendStateMessage.prototype.setSessionId = function(value) {
  * optional string destination = 2;
  * @return {string}
  */
-proto.webrpc.SendStateMessage.prototype.getDestination = function() {
+proto.webrpc.SendStateRequest.prototype.getDestination = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.webrpc.SendStateMessage.prototype.setDestination = function(value) {
+proto.webrpc.SendStateRequest.prototype.setDestination = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -2918,7 +2919,7 @@ proto.webrpc.SendStateMessage.prototype.setDestination = function(value) {
  * optional bytes state = 3;
  * @return {!(string|Uint8Array)}
  */
-proto.webrpc.SendStateMessage.prototype.getState = function() {
+proto.webrpc.SendStateRequest.prototype.getState = function() {
   return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -2928,7 +2929,7 @@ proto.webrpc.SendStateMessage.prototype.getState = function() {
  * This is a type-conversion wrapper around `getState()`
  * @return {string}
  */
-proto.webrpc.SendStateMessage.prototype.getState_asB64 = function() {
+proto.webrpc.SendStateRequest.prototype.getState_asB64 = function() {
   return /** @type {string} */ (jspb.Message.bytesAsB64(
       this.getState()));
 };
@@ -2941,14 +2942,14 @@ proto.webrpc.SendStateMessage.prototype.getState_asB64 = function() {
  * This is a type-conversion wrapper around `getState()`
  * @return {!Uint8Array}
  */
-proto.webrpc.SendStateMessage.prototype.getState_asU8 = function() {
+proto.webrpc.SendStateRequest.prototype.getState_asU8 = function() {
   return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
       this.getState()));
 };
 
 
 /** @param {!(string|Uint8Array)} value */
-proto.webrpc.SendStateMessage.prototype.setState = function(value) {
+proto.webrpc.SendStateRequest.prototype.setState = function(value) {
   jspb.Message.setProto3BytesField(this, 3, value);
 };
 
@@ -2964,12 +2965,12 @@ proto.webrpc.SendStateMessage.prototype.setState = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.webrpc.AckStateMessage = function(opt_data) {
+proto.webrpc.AckStateRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.webrpc.AckStateMessage, jspb.Message);
+goog.inherits(proto.webrpc.AckStateRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.webrpc.AckStateMessage.displayName = 'proto.webrpc.AckStateMessage';
+  proto.webrpc.AckStateRequest.displayName = 'proto.webrpc.AckStateRequest';
 }
 
 
@@ -2984,8 +2985,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.webrpc.AckStateMessage.prototype.toObject = function(opt_includeInstance) {
-  return proto.webrpc.AckStateMessage.toObject(opt_includeInstance, this);
+proto.webrpc.AckStateRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.webrpc.AckStateRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -2994,11 +2995,11 @@ proto.webrpc.AckStateMessage.prototype.toObject = function(opt_includeInstance) 
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.webrpc.AckStateMessage} msg The msg instance to transform.
+ * @param {!proto.webrpc.AckStateRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.webrpc.AckStateMessage.toObject = function(includeInstance, msg) {
+proto.webrpc.AckStateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     sessionId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     seq: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -3015,23 +3016,23 @@ proto.webrpc.AckStateMessage.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.webrpc.AckStateMessage}
+ * @return {!proto.webrpc.AckStateRequest}
  */
-proto.webrpc.AckStateMessage.deserializeBinary = function(bytes) {
+proto.webrpc.AckStateRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.webrpc.AckStateMessage;
-  return proto.webrpc.AckStateMessage.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.webrpc.AckStateRequest;
+  return proto.webrpc.AckStateRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.webrpc.AckStateMessage} msg The message object to deserialize into.
+ * @param {!proto.webrpc.AckStateRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.webrpc.AckStateMessage}
+ * @return {!proto.webrpc.AckStateRequest}
  */
-proto.webrpc.AckStateMessage.deserializeBinaryFromReader = function(msg, reader) {
+proto.webrpc.AckStateRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3059,9 +3060,9 @@ proto.webrpc.AckStateMessage.deserializeBinaryFromReader = function(msg, reader)
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.webrpc.AckStateMessage.prototype.serializeBinary = function() {
+proto.webrpc.AckStateRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.webrpc.AckStateMessage.serializeBinaryToWriter(this, writer);
+  proto.webrpc.AckStateRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3069,11 +3070,11 @@ proto.webrpc.AckStateMessage.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.webrpc.AckStateMessage} message
+ * @param {!proto.webrpc.AckStateRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.webrpc.AckStateMessage.serializeBinaryToWriter = function(message, writer) {
+proto.webrpc.AckStateRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getSessionId();
   if (f.length > 0) {
@@ -3096,13 +3097,13 @@ proto.webrpc.AckStateMessage.serializeBinaryToWriter = function(message, writer)
  * optional string session_id = 1;
  * @return {string}
  */
-proto.webrpc.AckStateMessage.prototype.getSessionId = function() {
+proto.webrpc.AckStateRequest.prototype.getSessionId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.webrpc.AckStateMessage.prototype.setSessionId = function(value) {
+proto.webrpc.AckStateRequest.prototype.setSessionId = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -3111,14 +3112,156 @@ proto.webrpc.AckStateMessage.prototype.setSessionId = function(value) {
  * optional string seq = 2;
  * @return {string}
  */
-proto.webrpc.AckStateMessage.prototype.getSeq = function() {
+proto.webrpc.AckStateRequest.prototype.getSeq = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.webrpc.AckStateMessage.prototype.setSeq = function(value) {
+proto.webrpc.AckStateRequest.prototype.setSeq = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.webrpc.ReceiveStatesRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.webrpc.ReceiveStatesRequest, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.webrpc.ReceiveStatesRequest.displayName = 'proto.webrpc.ReceiveStatesRequest';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.webrpc.ReceiveStatesRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.webrpc.ReceiveStatesRequest.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.webrpc.ReceiveStatesRequest} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.webrpc.ReceiveStatesRequest.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    sessionId: jspb.Message.getFieldWithDefault(msg, 1, "")
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.webrpc.ReceiveStatesRequest}
+ */
+proto.webrpc.ReceiveStatesRequest.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.webrpc.ReceiveStatesRequest;
+  return proto.webrpc.ReceiveStatesRequest.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.webrpc.ReceiveStatesRequest} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.webrpc.ReceiveStatesRequest}
+ */
+proto.webrpc.ReceiveStatesRequest.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSessionId(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.webrpc.ReceiveStatesRequest.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.webrpc.ReceiveStatesRequest.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.webrpc.ReceiveStatesRequest} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.webrpc.ReceiveStatesRequest.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getSessionId();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string session_id = 1;
+ * @return {string}
+ */
+proto.webrpc.ReceiveStatesRequest.prototype.getSessionId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/** @param {string} value */
+proto.webrpc.ReceiveStatesRequest.prototype.setSessionId = function(value) {
+  jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

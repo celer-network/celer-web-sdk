@@ -3,8 +3,11 @@
   "version": "0.8.0",
   "description": "JavaScript library to interact with a local Celer node",
   "scripts": {
-    "clean": "rm -rf dist tsout demoout",
-    "build": "npx tsc -p . && npx parcel build --global celer src/index.ts",
+    "clean": "rm -rf browser dist tsout demoout",
+    "compile": "npx tsc -p .",
+    "bundle:browser": "npx parcel build -d browser --out-file browser.js --global celer src/index.ts",
+    "bundle:node": "npx parcel build --target node src/index.ts",
+    "build": "npm run compile && npm run bundle:browser && npm run bundle:node",
     "doc": "npx typedoc --out doc --excludePrivate src",
     "demo": "npm run build && npx parcel serve -d demoout demo/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +19,7 @@
   },
   "license": "MIT",
   "main": "dist/index.js",
+  "browser": "browser/browser.js",
   "types": "dist/index.d.ts",
   "devDependencies": {
     "parcel-bundler": "^1.11.0",
@@ -24,7 +28,10 @@
   },
   "dependencies": {
     "@improbable-eng/grpc-web": "^0.8.0",
+    "@improbable-eng/grpc-web-node-http-transport": "0.0.2",
+    "@types/detect-node": "^2.0.0",
     "@types/google-protobuf": "^3.2.7",
+    "detect-node": "^2.0.4",
     "google-protobuf": "^3.7.0-rc.2",
     "ts-protoc-gen": "^0.9.0"
   },

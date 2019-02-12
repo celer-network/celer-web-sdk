@@ -1,4 +1,7 @@
 import { grpc } from '@improbable-eng/grpc-web';
+import { NodeHttpTransport } from '@improbable-eng/grpc-web-node-http-transport';
+import isNode from 'detect-node';
+
 import {
   Condition as ConditionMessage,
   DepositRequest,
@@ -18,19 +21,21 @@ import {
   EndAppSessionRequest,
   RegisterOracleRequest,
   ResolveOracleRequest,
-  AckStateMessage,
   StateMessage,
-  SendStateMessage
+  SendStateRequest,
+  AckStateRequest,
+  ReceiveStatesRequest
 } from './webapi/web_api_pb';
 import { WebApi } from './webapi/web_api_pb_service';
 
 export class Client {
   private host: string;
-  private stateSenderMap: Map<string, (message: SendStateMessage) => void>;
 
   constructor(host: string) {
     this.host = host;
-    this.stateSenderMap = new Map();
+    if (isNode) {
+      grpc.setDefaultTransport(NodeHttpTransport());
+    }
   }
 
   openEthChannel(amountWei: string, peerAmountWei: string): Promise<string> {
@@ -127,39 +132,36 @@ export class Client {
       request.setNonce(appInfo.nonce);
       try {
         grpc.invoke(WebApi.CreateAppSession, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
           onMessage: (response: CreateAppSessionResponse) => {
             const sessionID = response.getSessionId();
-
-            const sendClient = grpc.client(WebApi.SendStates, {
-              host: this.host
-            });
-            sendClient.onEnd(() => sendClient.finishSend());
-            this.stateSenderMap.set(sessionID, sendClient.send);
-
-            const ackClient = grpc.client(WebApi.ReceiveStates, {
-              host: this.host
-            });
-            ackClient.onEnd(() => ackClient.finishSend());
-            ackClient.onMessage((message: StateMessage) => {
-              const seq = message.getSeq();
-              const valid = stateValidator(message.getState_asU8());
-              if (valid) {
-                const ack = new AckStateMessage();
-                ack.setSessionId(sessionID);
-                ack.setSeq(seq);
-                ackClient.send(ack);
+            const receiveStatesRequest = new ReceiveStatesRequest();
+            receiveStatesRequest.setSessionId(sessionID);
+            const receiveGrpc = grpc.invoke(WebApi.ReceiveStates, {
+              request: receiveStatesRequest,
+              host: this.host,
+              onEnd: _ => {},
+              onMessage: (message: StateMessage) => {
+                const seq = message.getSeq();
+                const valid = stateValidator(message.getState_asU8());
+                if (valid) {
+                  const ackStateRequest = new AckStateRequest();
+                  ackStateRequest.setSessionId(sessionID);
+                  ackStateRequest.setSeq(seq);
+                  grpc.invoke(WebApi.AckState, {
+                    request: ackStateRequest,
+                    host: this.host,
+                    onEnd: _ => {
+                      receiveGrpc.close();
+                    },
+                    onMessage: _ => {}
+                  });
+                }
               }
             });
-            const initMessage = new AckStateMessage();
-            initMessage.setSessionId(sessionID);
-            initMessage.setSeq('-1');
-            ackClient.send(initMessage);
-
-            resolve(response.getSessionId());
+            resolve(sessionID);
           }
         });
       } catch (e) {
@@ -174,13 +176,19 @@ export class Client {
     state: Uint8Array
   ): Promise<void> {
     return new Promise((resolve, reject) => {
-      const sendStateMessage = new SendStateMessage();
-      sendStateMessage.setSessionId(sessionID);
-      sendStateMessage.setDestination(destination);
-      sendStateMessage.setState(state);
+      const request = new SendStateRequest();
+      request.setSessionId(sessionID);
+      request.setDestination(destination);
+      request.setState(state);
       try {
-        this.stateSenderMap.get(sessionID)(sendStateMessage);
-        resolve();
+        grpc.invoke(WebApi.SendState, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: _ => {
+            resolve();
+          }
+        });
       } catch (e) {
         reject(e);
       }
@@ -193,7 +201,6 @@ export class Client {
       request.setSessionId(sessionID);
       try {
         grpc.invoke(WebApi.SettleAppSession, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -226,7 +233,6 @@ export class Client {
       request.setAbi(abi);
       try {
         grpc.invoke(WebApi.RegisterOracle, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -265,7 +271,6 @@ export class Client {
       request.setPeerAmountWei(peerAmountWei);
       try {
         grpc.invoke(WebApi.OpenChannel, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -291,7 +296,6 @@ export class Client {
       request.setAmountWei(amountWei);
       try {
         grpc.invoke(WebApi.Deposit, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -317,7 +321,6 @@ export class Client {
       request.setAmountWei(amountWei);
       try {
         grpc.invoke(WebApi.Withdraw, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -341,7 +344,6 @@ export class Client {
       request.setTokenAddress(tokenAddress);
       try {
         grpc.invoke(WebApi.GetBalance, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -383,7 +385,6 @@ export class Client {
       }
       try {
         grpc.invoke(WebApi.SendConditionalPayment, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -411,7 +412,6 @@ export class Client {
       request.setWinnerIndex(winnerIndex);
       try {
         grpc.invoke(WebApi.EndAppSession, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -437,7 +437,6 @@ export class Client {
       request.setTokenAddress(tokenAddress);
       try {
         grpc.invoke(WebApi.ResolveOracle, {
-          transport: grpc.WebsocketTransport(),
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
