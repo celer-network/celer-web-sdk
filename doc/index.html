@@ -65,14 +65,15 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="celer-web-sdk">Celer Web SDK</h1>
-				<p><a href="https://travis-ci.com/celer-network/Celer-Web-SDK"><img src="https://travis-ci.com/celer-network/Celer-Web-SDK.svg?branch=master" alt="Build Status"></a></p>
+				<p><a href="https://travis-ci.com/celer-network/Celer-Web-SDK"><img src="https://travis-ci.com/celer-network/Celer-Web-SDK.svg?token=DvaxasPgAzCzksHzA2ct&branch=master" alt="Build Status"></a></p>
 				<p>JavaScript library to interact with a local Celer node</p>
 				<h2 id="building">Building</h2>
 				<pre><code><span class="hljs-built_in">npm</span> install
 <span class="hljs-built_in">npm</span> run build</code></pre><p>The built library will be at <code>dist/index.js</code>. </p>
 				<h2 id="usage">Usage</h2>
-				<p>Run a Celer node with</p>
-				<pre><code>go <span class="hljs-built_in">run</span> $GOCELER/webapi/cmd/main.go -keystore &lt;path-<span class="hljs-keyword">to</span>-keystore-json&gt; -config &lt;path-<span class="hljs-keyword">to</span>-profile-json&gt;</code></pre><p>The web API server will be started at <code>http://localhost:29979</code>.</p>
+				<p>Check out a prebuilt <a href="https://github.com/celer-network/celer-client">Celer Client</a> binary.</p>
+				<p>Run it with</p>
+				<pre><code>./celer_client_mac -keystore &lt;<span class="hljs-type">path</span>-<span class="hljs-keyword">to</span>-keystore-<span class="hljs-type">json</span>&gt; -config &lt;<span class="hljs-type">path</span>-<span class="hljs-keyword">to</span>-profile-<span class="hljs-type">json</span>&gt;</code></pre><p>The web API server will be started at <code>http://localhost:29979</code>.</p>
 				<p>The built SDK library exports a global <code>celer</code> namespace. All APIs are exposed on a Celer client object created by <code>new celer.Client(endpoint)</code>.</p>
 				<p>Alternatively, you can import the library as a CommonJS module like:</p>
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> celer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'celer-web-sdk'</span>);</code></pre>
