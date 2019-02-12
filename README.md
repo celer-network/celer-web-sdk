@@ -14,9 +14,11 @@ npm run build
 The built library will be at `dist/index.js`. 
 
 ## Usage
-Run a Celer node with
+Check out a prebuilt [Celer Client](https://github.com/celer-network/celer-client) binary.
+
+Run it with
 ```
-go run $GOCELER/webapi/cmd/main.go -keystore <path-to-keystore-json> -config <path-to-profile-json>
+./celer_client_mac -keystore <path-to-keystore-json> -config <path-to-profile-json>
 ```
 The web API server will be started at `http://localhost:29979`.
 
