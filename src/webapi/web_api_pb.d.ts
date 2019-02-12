@@ -221,6 +221,9 @@ export class Condition extends jspb.Message {
   getArgsForQueryResult_asB64(): string;
   setArgsForQueryResult(value: Uint8Array | string): void;
 
+  getOnChainDeployed(): boolean;
+  setOnChainDeployed(value: boolean): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Condition.AsObject;
   static toObject(includeInstance: boolean, msg: Condition): Condition.AsObject;
@@ -237,6 +240,7 @@ export namespace Condition {
     sessionId: string,
     argsForIsFinalized: Uint8Array | string,
     argsForQueryResult: Uint8Array | string,
+    onChainDeployed: boolean,
   }
 }
 
