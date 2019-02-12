@@ -4,9 +4,9 @@
   "description": "JavaScript library to interact with a local Celer node",
   "scripts": {
     "clean": "rm -rf dist tsout demoout",
-    "build": "tsc -p . && parcel build --global celer src/index.ts",
-    "doc": "typedoc --out doc --excludePrivate src",
-    "demo": "npm run build && parcel serve -d demoout demo/index.html",
+    "build": "npx tsc -p . && npx parcel build --global celer src/index.ts",
+    "doc": "npx typedoc --out doc --excludePrivate src",
+    "demo": "npm run build && npx parcel serve -d demoout demo/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "https://github.com/celer-network/celer-web-sdk",
