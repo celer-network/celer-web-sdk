@@ -378,6 +378,7 @@ export class Client {
         conditionMessage.setSessionId(condition.sessionID);
         conditionMessage.setArgsForIsFinalized(condition.argsForIsFinalized);
         conditionMessage.setArgsForQueryResult(condition.argsForQueryResult);
+        conditionMessage.setOnChainDeployed(condition.onChainDeployed);
         request.setCondition(conditionMessage);
       }
       try {
@@ -485,6 +486,7 @@ interface Condition {
   sessionID: string;
   argsForIsFinalized: Uint8Array;
   argsForQueryResult: Uint8Array;
+  onChainDeployed: boolean;
 }
 
 interface AppInfo {

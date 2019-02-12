@@ -1489,7 +1489,8 @@ proto.webrpc.Condition.toObject = function(includeInstance, msg) {
     deadline: jspb.Message.getFieldWithDefault(msg, 1, ""),
     sessionId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     argsForIsFinalized: msg.getArgsForIsFinalized_asB64(),
-    argsForQueryResult: msg.getArgsForQueryResult_asB64()
+    argsForQueryResult: msg.getArgsForQueryResult_asB64(),
+    onChainDeployed: jspb.Message.getFieldWithDefault(msg, 5, false)
   };
 
   if (includeInstance) {
@@ -1541,6 +1542,10 @@ proto.webrpc.Condition.deserializeBinaryFromReader = function(msg, reader) {
     case 4:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setArgsForQueryResult(value);
+      break;
+    case 5:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setOnChainDeployed(value);
       break;
     default:
       reader.skipField();
@@ -1596,6 +1601,13 @@ proto.webrpc.Condition.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeBytes(
       4,
+      f
+    );
+  }
+  f = message.getOnChainDeployed();
+  if (f) {
+    writer.writeBool(
+      5,
       f
     );
   }
@@ -1707,6 +1719,23 @@ proto.webrpc.Condition.prototype.getArgsForQueryResult_asU8 = function() {
 /** @param {!(string|Uint8Array)} value */
 proto.webrpc.Condition.prototype.setArgsForQueryResult = function(value) {
   jspb.Message.setProto3BytesField(this, 4, value);
+};
+
+
+/**
+ * optional bool on_chain_deployed = 5;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.webrpc.Condition.prototype.getOnChainDeployed = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 5, false));
+};
+
+
+/** @param {boolean} value */
+proto.webrpc.Condition.prototype.setOnChainDeployed = function(value) {
+  jspb.Message.setProto3BooleanField(this, 5, value);
 };
 
 
