@@ -36,6 +36,7 @@
     "ts-protoc-gen": "^0.9.0"
   },
   "files": [
+    "browser",
     "dist",
     "README.md"
   ]
