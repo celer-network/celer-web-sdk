@@ -1,6 +1,8 @@
 .cache
 .DS_Store
+/browser/
 /dist/
 /demoout/
 /tsout/
 node_modules/
+.vscode/*

@@ -68,18 +68,27 @@ WebApi.CreateAppSession = {
 WebApi.ReceiveStates = {
   methodName: "ReceiveStates",
   service: WebApi,
-  requestStream: true,
+  requestStream: false,
   responseStream: true,
-  requestType: web_api_pb.AckStateMessage,
+  requestType: web_api_pb.ReceiveStatesRequest,
   responseType: web_api_pb.StateMessage
 };
 
-WebApi.SendStates = {
-  methodName: "SendStates",
+WebApi.SendState = {
+  methodName: "SendState",
   service: WebApi,
-  requestStream: true,
+  requestStream: false,
   responseStream: false,
-  requestType: web_api_pb.SendStateMessage,
+  requestType: web_api_pb.SendStateRequest,
+  responseType: google_protobuf_empty_pb.Empty
+};
+
+WebApi.AckState = {
+  methodName: "AckState",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.AckStateRequest,
   responseType: google_protobuf_empty_pb.Empty
 };
 
@@ -312,43 +321,37 @@ WebApiClient.prototype.createAppSession = function createAppSession(requestMessa
   };
 };
 
-WebApiClient.prototype.receiveStates = function receiveStates(metadata) {
+WebApiClient.prototype.receiveStates = function receiveStates(requestMessage, metadata) {
   var listeners = {
     data: [],
     end: [],
     status: []
   };
-  var client = grpc.client(WebApi.ReceiveStates, {
+  var client = grpc.invoke(WebApi.ReceiveStates, {
+    request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
-    transport: this.options.transport
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.end.forEach(function (handler) {
+        handler();
+      });
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
   });
-  client.onEnd(function (status, statusMessage, trailers) {
-    listeners.end.forEach(function (handler) {
-      handler();
-    });
-    listeners.status.forEach(function (handler) {
-      handler({ code: status, details: statusMessage, metadata: trailers });
-    });
-    listeners = null;
-  });
-  client.onMessage(function (message) {
-    listeners.data.forEach(function (handler) {
-      handler(message);
-    })
-  });
-  client.start(metadata);
   return {
     on: function (type, handler) {
       listeners[type].push(handler);
       return this;
-    },
-    write: function (requestMessage) {
-      client.send(requestMessage);
-      return this;
-    },
-    end: function () {
-      client.finishSend();
     },
     cancel: function () {
       listeners = null;
@@ -357,42 +360,63 @@ WebApiClient.prototype.receiveStates = function receiveStates(metadata) {
   };
 };
 
-WebApiClient.prototype.sendStates = function sendStates(metadata) {
-  var listeners = {
-    end: [],
-    status: []
-  };
-  var client = grpc.client(WebApi.SendStates, {
+WebApiClient.prototype.sendState = function sendState(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.SendState, {
+    request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
-    transport: this.options.transport
-  });
-  client.onEnd(function (status, statusMessage, trailers) {
-    listeners.end.forEach(function (handler) {
-      handler();
-    });
-    listeners.status.forEach(function (handler) {
-      handler({ code: status, details: statusMessage, metadata: trailers });
-    });
-    listeners = null;
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
   });
   return {
-    on: function (type, handler) {
-      listeners[type].push(handler);
-      return this;
-    },
-    write: function (requestMessage) {
-      if (!client.started) {
-        client.start(metadata);
-      }
-      client.send(requestMessage);
-      return this;
-    },
-    end: function () {
-      client.finishSend();
-    },
     cancel: function () {
-      listeners = null;
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.ackState = function ackState(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.AckState, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
       client.close();
     }
   };

@@ -5,6 +5,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "declaration": true,
     "declarationDir": "dist",
     "outDir": "tsout",

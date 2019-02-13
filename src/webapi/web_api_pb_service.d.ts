@@ -62,18 +62,27 @@ type WebApiCreateAppSession = {
 type WebApiReceiveStates = {
   readonly methodName: string;
   readonly service: typeof WebApi;
-  readonly requestStream: true;
+  readonly requestStream: false;
   readonly responseStream: true;
-  readonly requestType: typeof web_api_pb.AckStateMessage;
+  readonly requestType: typeof web_api_pb.ReceiveStatesRequest;
   readonly responseType: typeof web_api_pb.StateMessage;
 };
 
-type WebApiSendStates = {
+type WebApiSendState = {
   readonly methodName: string;
   readonly service: typeof WebApi;
-  readonly requestStream: true;
+  readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof web_api_pb.SendStateMessage;
+  readonly requestType: typeof web_api_pb.SendStateRequest;
+  readonly responseType: typeof google_protobuf_empty_pb.Empty;
+};
+
+type WebApiAckState = {
+  readonly methodName: string;
+  readonly service: typeof WebApi;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof web_api_pb.AckStateRequest;
   readonly responseType: typeof google_protobuf_empty_pb.Empty;
 };
 
@@ -122,7 +131,8 @@ export class WebApi {
   static readonly SendConditionalPayment: WebApiSendConditionalPayment;
   static readonly CreateAppSession: WebApiCreateAppSession;
   static readonly ReceiveStates: WebApiReceiveStates;
-  static readonly SendStates: WebApiSendStates;
+  static readonly SendState: WebApiSendState;
+  static readonly AckState: WebApiAckState;
   static readonly SettleAppSession: WebApiSettleAppSession;
   static readonly EndAppSession: WebApiEndAppSession;
   static readonly RegisterOracle: WebApiRegisterOracle;
@@ -215,8 +225,25 @@ export class WebApiClient {
     requestMessage: web_api_pb.CreateAppSessionRequest,
     callback: (error: ServiceError|null, responseMessage: web_api_pb.CreateAppSessionResponse|null) => void
   ): UnaryResponse;
-  receiveStates(metadata?: grpc.Metadata): BidirectionalStream<web_api_pb.AckStateMessage, web_api_pb.StateMessage>;
-  sendStates(metadata?: grpc.Metadata): RequestStream<web_api_pb.SendStateMessage>;
+  receiveStates(requestMessage: web_api_pb.ReceiveStatesRequest, metadata?: grpc.Metadata): ResponseStream<web_api_pb.StateMessage>;
+  sendState(
+    requestMessage: web_api_pb.SendStateRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
+  ): UnaryResponse;
+  sendState(
+    requestMessage: web_api_pb.SendStateRequest,
+    callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
+  ): UnaryResponse;
+  ackState(
+    requestMessage: web_api_pb.AckStateRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
+  ): UnaryResponse;
+  ackState(
+    requestMessage: web_api_pb.AckStateRequest,
+    callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
+  ): UnaryResponse;
   settleAppSession(
     requestMessage: web_api_pb.SettleAppSessionRequest,
     metadata: grpc.Metadata,

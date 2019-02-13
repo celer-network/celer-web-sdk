@@ -384,7 +384,7 @@ export namespace StateMessage {
   }
 }
 
-export class SendStateMessage extends jspb.Message {
+export class SendStateRequest extends jspb.Message {
   getSessionId(): string;
   setSessionId(value: string): void;
 
@@ -397,16 +397,16 @@ export class SendStateMessage extends jspb.Message {
   setState(value: Uint8Array | string): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): SendStateMessage.AsObject;
-  static toObject(includeInstance: boolean, msg: SendStateMessage): SendStateMessage.AsObject;
+  toObject(includeInstance?: boolean): SendStateRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: SendStateRequest): SendStateRequest.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: SendStateMessage, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): SendStateMessage;
-  static deserializeBinaryFromReader(message: SendStateMessage, reader: jspb.BinaryReader): SendStateMessage;
+  static serializeBinaryToWriter(message: SendStateRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SendStateRequest;
+  static deserializeBinaryFromReader(message: SendStateRequest, reader: jspb.BinaryReader): SendStateRequest;
 }
 
-export namespace SendStateMessage {
+export namespace SendStateRequest {
   export type AsObject = {
     sessionId: string,
     destination: string,
@@ -414,7 +414,7 @@ export namespace SendStateMessage {
   }
 }
 
-export class AckStateMessage extends jspb.Message {
+export class AckStateRequest extends jspb.Message {
   getSessionId(): string;
   setSessionId(value: string): void;
 
@@ -422,19 +422,39 @@ export class AckStateMessage extends jspb.Message {
   setSeq(value: string): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): AckStateMessage.AsObject;
-  static toObject(includeInstance: boolean, msg: AckStateMessage): AckStateMessage.AsObject;
+  toObject(includeInstance?: boolean): AckStateRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: AckStateRequest): AckStateRequest.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: AckStateMessage, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): AckStateMessage;
-  static deserializeBinaryFromReader(message: AckStateMessage, reader: jspb.BinaryReader): AckStateMessage;
+  static serializeBinaryToWriter(message: AckStateRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): AckStateRequest;
+  static deserializeBinaryFromReader(message: AckStateRequest, reader: jspb.BinaryReader): AckStateRequest;
 }
 
-export namespace AckStateMessage {
+export namespace AckStateRequest {
   export type AsObject = {
     sessionId: string,
     seq: string,
+  }
+}
+
+export class ReceiveStatesRequest extends jspb.Message {
+  getSessionId(): string;
+  setSessionId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ReceiveStatesRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: ReceiveStatesRequest): ReceiveStatesRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ReceiveStatesRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ReceiveStatesRequest;
+  static deserializeBinaryFromReader(message: ReceiveStatesRequest, reader: jspb.BinaryReader): ReceiveStatesRequest;
+}
+
+export namespace ReceiveStatesRequest {
+  export type AsObject = {
+    sessionId: string,
   }
 }
 
