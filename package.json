@@ -8,7 +8,7 @@
     "bundle:browser": "npx parcel build -d browser --out-file browser.js --global celer src/index.ts",
     "bundle:node": "npx parcel build --target node src/index.ts",
     "build": "npm run compile && npm run bundle:browser && npm run bundle:node",
-    "docs": "npx typedoc --out docs --excludePrivate src",
+    "docs": "npx typedoc --out docs --excludePrivate --disableOutputCheck --theme node_modules/typedoc-thunder-theme/bin/default src",
     "demo": "npm run build && npx parcel serve -d demoout demo/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,6 +24,7 @@
   "devDependencies": {
     "parcel-bundler": "^1.11.0",
     "typedoc": "^0.14.2",
+    "typedoc-thunder-theme": "0.0.2",
     "typescript": "^3.3.1"
   },
   "dependencies": {
