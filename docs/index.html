@@ -69,12 +69,15 @@
 				<p>JavaScript library to interact with a local Celer node</p>
 				<h2 id="building">Building</h2>
 				<pre><code><span class="hljs-built_in">npm</span> install
-<span class="hljs-built_in">npm</span> run build</code></pre><p>The built library will be at <code>dist/index.js</code>. </p>
+<span class="hljs-built_in">npm</span> run build</code></pre><p>The built library will be at <code>browser/browser.js</code> for browsers and
+				<code>dist/index.js</code> for NodeJS.</p>
 				<h2 id="usage">Usage</h2>
 				<p>Check out a prebuilt <a href="https://github.com/celer-network/celer-client">Celer Client</a> binary.</p>
 				<p>Run it with</p>
 				<pre><code>./celer_client_mac -keystore &lt;<span class="hljs-type">path</span>-<span class="hljs-keyword">to</span>-keystore-<span class="hljs-type">json</span>&gt; -config &lt;<span class="hljs-type">path</span>-<span class="hljs-keyword">to</span>-profile-<span class="hljs-type">json</span>&gt;</code></pre><p>The web API server will be started at <code>http://localhost:29979</code>.</p>
-				<p>The built SDK library exports a global <code>celer</code> namespace. All APIs are exposed on a Celer client object created by <code>new celer.Client(endpoint)</code>.</p>
+				<p>For the browser target, the built SDK library exports a global <code>celer</code>
+					namespace. All APIs are exposed on a Celer client object created by
+				<code>new celer.Client(endpoint)</code>.</p>
 				<p>Alternatively, you can import the library as a CommonJS module like:</p>
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> celer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'celer-web-sdk'</span>);</code></pre>
 				<p>A demo can be run with</p>

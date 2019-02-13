@@ -8,7 +8,7 @@
     "bundle:browser": "npx parcel build -d browser --out-file browser.js --global celer src/index.ts",
     "bundle:node": "npx parcel build --target node src/index.ts",
     "build": "npm run compile && npm run bundle:browser && npm run bundle:node",
-    "doc": "npx typedoc --out doc --excludePrivate src",
+    "docs": "npx typedoc --out docs --excludePrivate src",
     "demo": "npm run build && npx parcel serve -d demoout demo/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
