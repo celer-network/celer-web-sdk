@@ -1,6 +1,6 @@
 {
   "name": "celer-web-sdk",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "JavaScript library to interact with a local Celer node",
   "scripts": {
     "clean": "rm -rf browser dist tsout demoout",
