@@ -20,6 +20,13 @@
   "license": "MIT",
   "main": "dist/index.js",
   "browser": "browser/browser.js",
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Opera versions",
+    "last 2 Edge versions"
+  ],
   "types": "dist/index.d.ts",
   "devDependencies": {
     "parcel-bundler": "^1.11.0",
