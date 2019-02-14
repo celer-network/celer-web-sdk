@@ -48,6 +48,6 @@ and going to `http://localhost:1234` in the browser.
 *NOTE: You should have enough test ether to open channel, default value hardcoded in `profile.json` is 100 Wei. Ensure that you have it on account defined `keystore` on corresponding network default is `Ropsten` (defined in `profile.json`) *
 
 ## SDK API doc
-Auto-generated SDK API docs are available [on GitHub pages](https://celer-network.github.io/Celer-Web-SDK/index.html)
-You can find methods of `Client` [here](https://celer-network.github.io/Celer-Web-SDK/classes/_client_.client.html)  
+Auto-generated SDK API docs are available [on GitHub pages](https://celer-network.github.io/Celer-Web-SDK/index.html).
+You can find methods of `Client` object [here](https://celer-network.github.io/Celer-Web-SDK/classes/_client_.client.html)  
 
