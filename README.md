@@ -45,7 +45,7 @@ npm run demo
 ```
 and going to `http://localhost:1234` in the browser.
 
-*NOTE: You should have enough test ether to open channel, default value hardcoded in `profile.json` is 100 Wei. Ensure that you have it on account defined `keystore` on corresponding network default is `Ropsten` (defined in `profile.json`) *
+*NOTE: You should have enough test ether to open channel, in `demo/demo.js` it's equal to 100 Wei. Ensure that you have it on account defined `keystore` on corresponding network default is `Ropsten` (defined in `profile.json`) *
 
 ## SDK API doc
 Auto-generated SDK API docs are available [on GitHub pages](https://celer-network.github.io/Celer-Web-SDK/index.html).
