@@ -474,13 +474,13 @@ export class Client {
   }
 }
 
-interface Balance {
+export interface Balance {
   freeBalance: string;
   lockedBalance: string;
   receivingCapacity: string;
 }
 
-interface Condition {
+export interface Condition {
   deadline: string;
   sessionID: string;
   argsForIsFinalized: Uint8Array;
@@ -488,7 +488,7 @@ interface Condition {
   onChainDeployed: boolean;
 }
 
-interface AppInfo {
+export interface AppInfo {
   bin: string;
   abi: string;
   constructor: string;
