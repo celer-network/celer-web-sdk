@@ -38,10 +38,26 @@ export class Client {
     }
   }
 
+  /**
+   * Opens an ETH channel.
+   *
+   * @param amountWei - The amount to be deposited into the channel, in wei
+   * @param peerAmountWei - The amount to be deposited into the channel by the
+   *     counterparty, in wei
+   * @returns The channel ID
+   */
   openEthChannel(amountWei: string, peerAmountWei: string): Promise<string> {
     return this.openChannel('0', '0', amountWei, peerAmountWei);
   }
 
+  /**
+   * Opens an ERC-20 token channel.
+   *
+   * @param amountWei - The amount to be deposited into the channel, in wei
+   * @param peerAmountWei - The amount to be deposited into the channel by the
+   *     counterparty, in wei
+   * @returns The channel ID
+   */
   openErc20Channel(
     tokenAddress: string,
     amountWei: string,
@@ -50,34 +66,84 @@ export class Client {
     return this.openChannel('1', tokenAddress, amountWei, peerAmountWei);
   }
 
+  /**
+   * Deposits into an ETH channel.
+   *
+   * @param amountWei - The amount to be deposited into the channel, in wei
+   * @returns The hash of the deposit transaction
+   */
   depositEth(amountWei: string): Promise<string> {
     return this.deposit('0', '0', amountWei);
   }
 
+  /**
+   * Deposits into an ERC-20 token channel.
+   *
+   * @param amountWei - The amount to be deposited into the channel, in wei
+   * @returns The hash of the deposit transaction
+   */
   depositErc20(tokenAddress: string, amountWei: string): Promise<string> {
     return this.deposit('1', tokenAddress, amountWei);
   }
 
+  /**
+   * Withdraws from an ETH channel.
+   *
+   * @param amountWei - The amount to be withdrawn from the channel, in wei
+   * @returns The hash of the withdrawal transaction (currently unimplemented)
+   */
   withdrawEth(amountWei: string): Promise<string> {
     return this.withdraw('0', '0', amountWei);
   }
 
+  /**
+   * Withdraws from an ERC-20 token channel.
+   *
+   * @param amountWei - The amount to be withdrawn from the channel, in wei
+   * @returns The hash of the withdrawal transaction (currently unimplemented)
+   */
   withdrawErc20(tokenAddress: string, amountWei: string): Promise<string> {
     return this.withdraw('1', tokenAddress, amountWei);
   }
 
+  /**
+   * Gets the balance of an ETH channel.
+   *
+   * @returns The balance information
+   */
   getEthBalance(): Promise<Balance> {
     return this.getBalance('0', '0');
   }
 
+  /**
+   * Gets the balance of an ERC-20 token channel.
+   *
+   * @param tokenAddress - The address of the ERC-20 token contract
+   * @returns The balance information
+   */
   getErc20Balance(tokenAddress: string): Promise<Balance> {
     return this.getBalance('1', tokenAddress);
   }
 
+  /**
+   * Sends an off-chain ETH payment.
+   *
+   * @param amountWei - The amount to be sent, in wei
+   * @param destination - The ETH address of the recipient
+   * @returns The payment ID (currently unimplemented)
+   */
   sendEth(amountWei: string, destination: string): Promise<string> {
     return this.sendConditionalPayment('0', '0', amountWei, destination);
   }
 
+  /**
+   * Sends an off-chain ERC-20 token payment.
+   *
+   * @param tokenAddress - The address of the ERC-20 token contract
+   * @param amountWei - The amount to be sent, in wei
+   * @param destination - The ETH address of the recipient
+   * @returns The payment ID (currently unimplemented)
+   */
   sendErc20(
     tokenAddress: string,
     amountWei: string,
@@ -91,6 +157,14 @@ export class Client {
     );
   }
 
+  /**
+   * Sends an off-chain ETH payment with a condition.
+   *
+   * @param amountWei - The amount to be sent, in wei
+   * @param destination - The ETH address of the recipient
+   * @param condition - The condition for the payment to be issued
+   * @returns The payment ID (currently unimplemented)
+   */
   sendEthWithCondition(
     amountWei: string,
     destination: string,
@@ -105,6 +179,15 @@ export class Client {
     );
   }
 
+  /**
+   * Sends an off-chain ERC-20 token payment with a condition.
+   *
+   * @param tokenAddress - The address of the ERC-20 token contract
+   * @param amountWei - The amount to be sent, in wei
+   * @param destination - The ETH address of the recipient
+   * @param condition - The condition for the payment to be issued
+   * @returns The payment ID (currently unimplemented)
+   */
   sendErc20WithCondition(
     tokenAddress: string,
     amountWei: string,
@@ -120,6 +203,14 @@ export class Client {
     );
   }
 
+  /**
+   * Creates an cApp session.
+   *
+   * @param appInfo - The information about the cApp
+   * @param stateValidator - A function returning whether a state sent by the
+   *     counterparty is valid
+   * @returns The session ID
+   */
   createAppSession(
     appInfo: AppInfo,
     stateValidator: (state: Uint8Array) => boolean
@@ -172,6 +263,13 @@ export class Client {
     });
   }
 
+  /**
+   * Sends a cApp state.
+   *
+   * @param sessionID - The ID for the cApp session
+   * @param destination - The ETH address of the counterparty
+   * @param state - The state represented in a byte array
+   */
   sendState(
     sessionID: string,
     destination: string,
@@ -197,6 +295,12 @@ export class Client {
     });
   }
 
+  /**
+   * Settles a cApp session by deploying the cApp contract on-chain.
+   *
+   * @param sessionID - The ID for the cApp session
+   * @returns The address of the deployed cApp contract
+   */
   settleAppSession(sessionID: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const request = new SettleAppSessionRequest();
@@ -216,10 +320,25 @@ export class Client {
     });
   }
 
+  /**
+   * Ends a cApp session and resolves all conditional payments in ETH associated
+   * with the session.
+   *
+   * @param sessionID - The ID for the cApp session
+   * @param winnerIndex - The index of the winner
+   */
   endAppSessionForEth(sessionID: string, winnerIndex: string): Promise<void> {
     return this.endAppSession(sessionID, '0', '0', winnerIndex);
   }
 
+  /**
+   * Ends a cApp session and resolves all conditional payments in an ERC-20
+   * token associated with the session.
+   *
+   * @param sessionID - The ID for the cApp session
+   * @param tokenAddress - The address of the ERC-20 token contract
+   * @param winnerIndex - The index of the winner
+   */
   endAppSessionForErc20(
     sessionID: string,
     tokenAddress: string,
@@ -228,7 +347,13 @@ export class Client {
     return this.endAppSession(sessionID, '1', tokenAddress, winnerIndex);
   }
 
-  registerOracle(oracleAddress: string, abi: string) {
+  /**
+   * Registers an on-chain oracle
+   *
+   * @param oracleAddress - The address of the oracle contract
+   * @param abi - The ABI of the oracle contract
+   */
+  registerOracle(oracleAddress: string, abi: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const request = new RegisterOracleRequest();
       request.setOracleAddress(oracleAddress);
@@ -248,10 +373,22 @@ export class Client {
     });
   }
 
+  /**
+   * Resolves all conditional payments in ETH associated with an on-chain oracle
+   *
+   * @param oracleAddress - The address of the oracle contract
+   */
   resolveOracleForEth(oracleAddress: string): Promise<void> {
     return this.resolveOracle(oracleAddress, '0', '0');
   }
 
+  /**
+   * Resolves all conditional payments in an ERC-20 token associated with an
+   * on-chain oracle
+   *
+   * @param oracleAddress - The address of the oracle contract
+   * @param tokenAddress - The address of the ERC-20 token contract
+   */
   resolveOracleForErc20(
     oracleAddress: string,
     tokenAddress: string
@@ -477,22 +614,34 @@ export class Client {
 }
 
 export interface Balance {
+  /** The maximum amount that can be sent off-chain, in wei */
   freeBalance: string;
+  /** The amount locked in pending conditional payments, in wei */
   lockedBalance: string;
+  /** The maximum amount that can be received off-chain, in wei */
   receivingCapacity: string;
 }
 
 export interface Condition {
+  /** The block number at which the condition will expire */
   deadline: string;
+  /** The cApp session ID */
   sessionID: string;
+  /** The arguments for the on-chain `isFinalized` call */
   argsForIsFinalized: Uint8Array;
+  /** The arguments for the on-chain `queryResult` call */
   argsForQueryResult: Uint8Array;
+  /** Whether the condition depends on an on-chain deployed contract */
   onChainDeployed: boolean;
 }
 
 export interface AppInfo {
+  /** The hex-encoded binary of the cApp contract */
   bin: string;
+  /** The ABI JSON string of the cApp contract */
   abi: string;
+  /** The hex-encoded arguments for the constructor of the cApp contract */
   constructor: string;
+  /** A unique ID for the cApp agreed upon by both parties */
   nonce: string;
 }
