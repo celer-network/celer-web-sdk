@@ -6,3 +6,4 @@
 /tsout/
 node_modules/
 .vscode/*
+celer-web-sdk-*.tgz
