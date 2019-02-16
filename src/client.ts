@@ -153,8 +153,10 @@ export class Client {
                   grpc.invoke(WebApi.AckState, {
                     request: ackStateRequest,
                     host: this.host,
-                    onEnd: _ => {
-                      receiveGrpc.close();
+                    onEnd: (code, _message, _trailers) => {
+                      if (code !== grpc.Code.OK) {
+                        receiveGrpc.close();
+                      }
                     },
                     onMessage: _ => {}
                   });
