@@ -2,7 +2,10 @@
 
 [![Build Status](https://travis-ci.com/celer-network/Celer-Web-SDK.svg?token=DvaxasPgAzCzksHzA2ct&branch=master)](https://travis-ci.com/celer-network/Celer-Web-SDK)
 
-JavaScript library to interact with a local Celer node
+JavaScript library to interact with a celer node
+
+## Celar API interaction
+![celer-open-channel-seq](https://artall64.github.io/Celer-Web-SDK/img/celer-open-channel-seq.svg)
 
 ## Building
 
@@ -45,9 +48,10 @@ npm run demo
 ```
 and going to `http://localhost:1234` in the browser.
 
-*NOTE: You should have enough test ether to open channel, in `demo/demo.js` it's equal to 100 Wei. Ensure that you have it on account defined `keystore` on corresponding network default is `Ropsten` (defined in `profile.json`) *
+*NOTE: You should have enough test ether to open channel, in `demo/demo.js` it's equal to 100 Wei. Ensure that you have it on account defined `keystore` on corresponding network default is `Ropsten` (defined in `profile.json`)*
 
 ## SDK API doc
 Auto-generated SDK API docs are available [on GitHub pages](https://celer-network.github.io/Celer-Web-SDK/index.html).
-You can find methods of `Client` object [here](https://celer-network.github.io/Celer-Web-SDK/classes/_client_.client.html)  
+You can find methods of `Client` object [here](https://celer-network.github.io/Celer-Web-SDK/classes/_client_.client.html)
+
 
