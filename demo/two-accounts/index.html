@@ -1,0 +1,57 @@
+<html>
+<head>
+    <script src="demo.js"></script>
+    <style type="text/css">
+        .container {
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            grid-template-rows: repeat(4, 60px);
+            grid-column-gap: 10px;
+            grid-row-gap: 20px;
+            justify-items: stretch;
+            align-items: stretch;
+        }
+        h4 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h4 id="account1"></h4>
+<code id="channel1-status"></code>
+
+<div class="container">
+    <button id="ac1-deposit">deposit (5 mWei)</button>
+    <code id="ac1-deposit-code"></code>
+
+    <button id="ac1-withdraw">withdraw (5 mWei)</button>
+    <code id="ac1-withdraw-code"></code>
+
+    <button id="ac1-send">Send (5 mWei)</button>
+    <code id="ac1-send-code"></code>
+
+    <button id="ac1-get-balance">getEthBalance()</button>
+    <code id="ac1-get-balance-code"></code>
+</div>
+
+
+<h4 id="account2"></h4>
+<code id="channel2-status"></code>
+
+<div class="container">
+    <button id="ac2-deposit">deposit (5 mWei)</button>
+    <code id="ac2-deposit-code"></code>
+
+    <button id="ac2-withdraw">withdraw (5 mWei)</button>
+    <code id="ac2-withdraw-code"></code>
+
+    <button id="ac2-send">Send (5 mWei)</button>
+    <code id="ac2-send-code"></code>
+
+    <button id="ac2-get-balance">getEthBalance()</button>
+    <code id="ac2-get-balance-code"></code>
+</div>
+</body>
+</html>

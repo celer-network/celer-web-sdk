@@ -1,0 +1,11 @@
+[
+  {
+    "ethereumAddress": "49ca2717e582e4037fe4c07eacf6ca3933a8f62d",
+    "celerClientHost": "http://localhost:30000"
+  },
+  {
+    "ethereumAddress": "90c8c14e90353730b605cd37231f3021bbfdc741",
+    "celerClientHost": "http://localhost:30001"
+  }
+]
+
