@@ -75,7 +75,8 @@
 				<h2 id="usage">Usage</h2>
 				<p>Check out a prebuilt <a href="https://github.com/celer-network/celer-client">Celer Client</a> binary.</p>
 				<p>Run it with</p>
-				<pre><code>./celer_client_mac -keystore &lt;<span class="hljs-type">path</span>-<span class="hljs-keyword">to</span>-keystore-<span class="hljs-type">json</span>&gt; -config &lt;<span class="hljs-type">path</span>-<span class="hljs-keyword">to</span>-profile-<span class="hljs-type">json</span>&gt;</code></pre><p>The web API server will be started at <code>http://localhost:29979</code>.</p>
+				<pre><code>./celer_client_mac -keystore &lt;<span class="hljs-type">path</span>-<span class="hljs-keyword">to</span>-keystore-<span class="hljs-type">json</span>&gt; -config &lt;<span class="hljs-type">path</span>-<span class="hljs-keyword">to</span>-profile-<span class="hljs-type">json</span>&gt;</code></pre><p>The easiest way to get <code>keystore</code> file is to take it from <code>geth</code>. You can find details <a href="https://medium.com/@julien.maffre/what-is-an-ethereum-keystore-file-86c8c5917b97">here</a></p>
+				<p>The web API server will be started at <code>http://localhost:29979</code>.</p>
 				<p>For the browser target, the built SDK library exports a global <code>celer</code>
 					namespace. All APIs are exposed on a Celer client object created by
 				<code>new celer.Client(endpoint)</code>.</p>
@@ -83,6 +84,10 @@
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> celer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'celer-web-sdk'</span>);</code></pre>
 				<p>A demo can be run with</p>
 				<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> demo</span></code></pre><p>and going to <code>http://localhost:1234</code> in the browser.</p>
+				<p>*NOTE: You should have enough test ether to open channel, in <code>demo/demo.js</code> it&#39;s equal to 100 Wei. Ensure that you have it on account defined <code>keystore</code> on corresponding network default is <code>Ropsten</code> (defined in <code>profile.json</code>) *</p>
+				<h2 id="sdk-api-doc">SDK API doc</h2>
+				<p>Auto-generated SDK API docs are available <a href="https://celer-network.github.io/Celer-Web-SDK/index.html">on GitHub pages</a>.
+				You can find methods of <code>Client</code> object <a href="https://celer-network.github.io/Celer-Web-SDK/classes/_client_.client.html">here</a>  </p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

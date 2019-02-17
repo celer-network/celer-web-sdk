@@ -128,7 +128,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L32">client.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L32">client.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -154,16 +154,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L123">client.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L214">client.ts:214</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an cApp session.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>appInfo: <a href="../interfaces/_client_.appinfo.html" class="tsd-signature-type">AppInfo</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The information about the cApp</p>
+									</div>
 								</li>
 								<li>
 									<h5>stateValidator: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function returning whether a state sent by the
+										counterparty is valid</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -185,6 +197,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The session ID</p>
 						</li>
 					</ul>
 				</section>
@@ -198,9 +211,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L57">client.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L85">client.ts:85</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deposits into an ERC-20 token channel.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -208,9 +226,13 @@
 								</li>
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be deposited into the channel, in wei</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The hash of the deposit transaction</p>
 						</li>
 					</ul>
 				</section>
@@ -224,16 +246,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L53">client.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L75">client.ts:75</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deposits into an ETH channel.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be deposited into the channel, in wei</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The hash of the deposit transaction</p>
 						</li>
 					</ul>
 				</section>
@@ -247,19 +278,34 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L221">client.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L342">client.ts:342</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ends a cApp session and resolves all conditional payments in an ERC-20
+									token associated with the session.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>sessionID: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID for the cApp session</p>
+									</div>
 								</li>
 								<li>
 									<h5>tokenAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The address of the ERC-20 token contract</p>
+									</div>
 								</li>
 								<li>
 									<h5>winnerIndex: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The index of the winner</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -276,16 +322,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L217">client.ts:217</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L330">client.ts:330</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ends a cApp session and resolves all conditional payments in ETH associated
+									with the session.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>sessionID: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID for the cApp session</p>
+									</div>
 								</li>
 								<li>
 									<h5>winnerIndex: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The index of the winner</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -302,16 +360,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L73">client.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L124">client.ts:124</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the balance of an ERC-20 token channel.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>tokenAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The address of the ERC-20 token contract</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_client_.balance.html" class="tsd-signature-type">Balance</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The balance information</p>
 						</li>
 					</ul>
 				</section>
@@ -325,10 +392,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L69">client.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L114">client.ts:114</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the balance of an ETH channel.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_client_.balance.html" class="tsd-signature-type">Balance</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The balance information</p>
 						</li>
 					</ul>
 				</section>
@@ -342,9 +415,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L45">client.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L61">client.ts:61</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Opens an ERC-20 token channel.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -352,12 +430,20 @@
 								</li>
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be deposited into the channel, in wei</p>
+									</div>
 								</li>
 								<li>
 									<h5>peerAmountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be deposited into the channel by the
+										counterparty, in wei</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The channel ID</p>
 						</li>
 					</ul>
 				</section>
@@ -371,19 +457,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L41">client.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L49">client.ts:49</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Opens an ETH channel.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be deposited into the channel, in wei</p>
+									</div>
 								</li>
 								<li>
 									<h5>peerAmountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be deposited into the channel by the
+										counterparty, in wei</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The channel ID</p>
 						</li>
 					</ul>
 				</section>
@@ -391,25 +490,36 @@
 					<a name="registeroracle" class="tsd-anchor"></a>
 					<h3>register<wbr>Oracle</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">register<wbr>Oracle<span class="tsd-signature-symbol">(</span>oracleAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, abi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Oracle<span class="tsd-signature-symbol">(</span>oracleAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, abi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L229">client.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L356">client.ts:356</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Registers an on-chain oracle</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>oracleAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The address of the oracle contract</p>
+									</div>
 								</li>
 								<li>
 									<h5>abi: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ABI of the oracle contract</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -423,16 +533,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L253">client.ts:253</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L392">client.ts:392</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resolves all conditional payments in an ERC-20 token associated with an
+									on-chain oracle</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>oracleAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The address of the oracle contract</p>
+									</div>
 								</li>
 								<li>
 									<h5>tokenAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The address of the ERC-20 token contract</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -449,13 +571,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L249">client.ts:249</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L381">client.ts:381</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resolves all conditional payments in ETH associated with an on-chain oracle</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>oracleAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The address of the oracle contract</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -472,22 +602,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L81">client.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L147">client.ts:147</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends an off-chain ERC-20 token payment.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>tokenAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The address of the ERC-20 token contract</p>
+									</div>
 								</li>
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be sent, in wei</p>
+									</div>
 								</li>
 								<li>
 									<h5>destination: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ETH address of the recipient</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The payment ID (currently unimplemented)</p>
 						</li>
 					</ul>
 				</section>
@@ -501,25 +646,43 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L108">client.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L191">client.ts:191</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends an off-chain ERC-20 token payment with a condition.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>tokenAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The address of the ERC-20 token contract</p>
+									</div>
 								</li>
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be sent, in wei</p>
+									</div>
 								</li>
 								<li>
 									<h5>destination: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ETH address of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>condition: <a href="../interfaces/_client_.condition.html" class="tsd-signature-type">Condition</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The condition for the payment to be issued</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The payment ID (currently unimplemented)</p>
 						</li>
 					</ul>
 				</section>
@@ -533,19 +696,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L77">client.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L135">client.ts:135</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends an off-chain ETH payment.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be sent, in wei</p>
+									</div>
 								</li>
 								<li>
 									<h5>destination: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ETH address of the recipient</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The payment ID (currently unimplemented)</p>
 						</li>
 					</ul>
 				</section>
@@ -559,22 +734,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L94">client.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L168">client.ts:168</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends an off-chain ETH payment with a condition.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be sent, in wei</p>
+									</div>
 								</li>
 								<li>
 									<h5>destination: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ETH address of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>condition: <a href="../interfaces/_client_.condition.html" class="tsd-signature-type">Condition</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The condition for the payment to be issued</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The payment ID (currently unimplemented)</p>
 						</li>
 					</ul>
 				</section>
@@ -588,19 +778,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L173">client.ts:173</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L273">client.ts:273</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends a cApp state.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>sessionID: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID for the cApp session</p>
+									</div>
 								</li>
 								<li>
 									<h5>destination: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ETH address of the counterparty</p>
+									</div>
 								</li>
 								<li>
 									<h5>state: <span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The state represented in a byte array</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -617,16 +821,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L198">client.ts:198</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L304">client.ts:304</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Settles a cApp session by deploying the cApp contract on-chain.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>sessionID: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID for the cApp session</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The address of the deployed cApp contract</p>
 						</li>
 					</ul>
 				</section>
@@ -640,9 +853,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L65">client.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L105">client.ts:105</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Withdraws from an ERC-20 token channel.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -650,9 +868,13 @@
 								</li>
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be withdrawn from the channel, in wei</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The hash of the withdrawal transaction (currently unimplemented)</p>
 						</li>
 					</ul>
 				</section>
@@ -666,16 +888,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/0378493/src/client.ts#L61">client.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/3aa087d/src/client.ts#L95">client.ts:95</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Withdraws from an ETH channel.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>amountWei: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to be withdrawn from the channel, in wei</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The hash of the withdrawal transaction (currently unimplemented)</p>
 						</li>
 					</ul>
 				</section>
@@ -769,13 +1000,13 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_client_.appinfo.html" class="tsd-kind-icon">App<wbr>Info</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_client_.balance.html" class="tsd-kind-icon">Balance</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_client_.condition.html" class="tsd-kind-icon">Condition</a>
 					</li>
 				</ul>

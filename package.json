@@ -1,6 +1,6 @@
 {
   "name": "celer-web-sdk",
-  "version": "0.8.1",
+  "version": "0.8.3",
   "description": "JavaScript library to interact with a local Celer node",
   "scripts": {
     "clean": "rm -rf browser dist tsout demoout",
@@ -21,6 +21,13 @@
   "license": "MIT",
   "main": "dist/index.js",
   "browser": "browser/browser.js",
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Opera versions",
+    "last 2 Edge versions"
+  ],
   "types": "dist/index.d.ts",
   "devDependencies": {
     "parcel-bundler": "^1.11.0",
