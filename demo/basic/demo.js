@@ -1,4 +1,4 @@
-const celer = require('../browser/browser'); // '../dist/index' for NodeJS
+const celer = require('../../browser/browser'); // '../dist/index' for NodeJS
 
 const client = new celer.Client('http://localhost:29979');
 
