@@ -4,7 +4,7 @@
 
 JavaScript library to interact with a celer node
 
-## Celar API interaction
+## Celer API interaction
 ![celer-open-channel-seq](https://artall64.github.io/Celer-Web-SDK/img/celer-open-channel-seq.svg)
 
 ## Building
