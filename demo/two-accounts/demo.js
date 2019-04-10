@@ -67,12 +67,12 @@ function getEthBalance(client, elemId) {
     })
 }
 
-function openChannel(client, elemId, capasity) {
+function openChannel(client, elemId, capacity) {
   const elem = document.getElementById(elemId);
 
-  client.openEthChannel(capasity, capasity)
+  client.openEthChannel(capacity, capacity)
     .then(cid => {
-      elem.textContent = `channel is opened, cid =  ${cid}, capasisty = ${capasity}, peerCapasity = ${capasity}`
+      elem.textContent = `channel is opened, cid =  ${cid}, capacity = ${capacity}, peerCapacity = ${capacity}`
     })
     .catch(e => {
       elem.textContent = JSON.stringify(e);
