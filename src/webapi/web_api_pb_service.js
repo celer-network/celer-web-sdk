@@ -17,7 +17,7 @@ WebApi.OpenChannel = {
   requestStream: false,
   responseStream: false,
   requestType: web_api_pb.OpenChannelRequest,
-  responseType: web_api_pb.OpenChannelResponse
+  responseType: web_api_pb.ChannelID
 };
 
 WebApi.Deposit = {
@@ -26,7 +26,7 @@ WebApi.Deposit = {
   requestStream: false,
   responseStream: false,
   requestType: web_api_pb.DepositRequest,
-  responseType: web_api_pb.DepositResponse
+  responseType: web_api_pb.TxHash
 };
 
 WebApi.Withdraw = {
@@ -35,7 +35,7 @@ WebApi.Withdraw = {
   requestStream: false,
   responseStream: false,
   requestType: web_api_pb.WithdrawRequest,
-  responseType: web_api_pb.WithdrawResponse
+  responseType: web_api_pb.TxHash
 };
 
 WebApi.GetBalance = {
@@ -53,43 +53,88 @@ WebApi.SendConditionalPayment = {
   requestStream: false,
   responseStream: false,
   requestType: web_api_pb.SendConditionalPaymentRequest,
-  responseType: web_api_pb.SendConditionalPaymentResponse
+  responseType: web_api_pb.PaymentID
 };
 
-WebApi.CreateAppSession = {
-  methodName: "CreateAppSession",
-  service: WebApi,
-  requestStream: false,
-  responseStream: false,
-  requestType: web_api_pb.CreateAppSessionRequest,
-  responseType: web_api_pb.CreateAppSessionResponse
-};
-
-WebApi.ReceiveStates = {
-  methodName: "ReceiveStates",
+WebApi.SubscribeIncomingPayments = {
+  methodName: "SubscribeIncomingPayments",
   service: WebApi,
   requestStream: false,
   responseStream: true,
-  requestType: web_api_pb.ReceiveStatesRequest,
-  responseType: web_api_pb.StateMessage
+  requestType: google_protobuf_empty_pb.Empty,
+  responseType: web_api_pb.PaymentInfo
 };
 
-WebApi.SendState = {
-  methodName: "SendState",
+WebApi.ConfirmOutgoingPayment = {
+  methodName: "ConfirmOutgoingPayment",
   service: WebApi,
   requestStream: false,
   responseStream: false,
-  requestType: web_api_pb.SendStateRequest,
+  requestType: web_api_pb.PaymentID,
   responseType: google_protobuf_empty_pb.Empty
 };
 
-WebApi.AckState = {
-  methodName: "AckState",
+WebApi.RejectIncomingPayment = {
+  methodName: "RejectIncomingPayment",
   service: WebApi,
   requestStream: false,
   responseStream: false,
-  requestType: web_api_pb.AckStateRequest,
+  requestType: web_api_pb.PaymentID,
   responseType: google_protobuf_empty_pb.Empty
+};
+
+WebApi.SettleIncomingPayment = {
+  methodName: "SettleIncomingPayment",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.PaymentID,
+  responseType: google_protobuf_empty_pb.Empty
+};
+
+WebApi.CreateAppSessionOnDeployedContract = {
+  methodName: "CreateAppSessionOnDeployedContract",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.CreateAppSessionOnDeployedContractRequest,
+  responseType: web_api_pb.SessionID
+};
+
+WebApi.SubscribeAppSessionDisputes = {
+  methodName: "SubscribeAppSessionDisputes",
+  service: WebApi,
+  requestStream: false,
+  responseStream: true,
+  requestType: web_api_pb.SessionID,
+  responseType: web_api_pb.DisputeInfo
+};
+
+WebApi.SignOutgoingState = {
+  methodName: "SignOutgoingState",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.SignOutgoingStateRequest,
+  responseType: web_api_pb.SignedState
+};
+
+WebApi.ValidateAck = {
+  methodName: "ValidateAck",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.ValidateAckRequest,
+  responseType: web_api_pb.BoolValue
+};
+
+WebApi.ProcessReceivedState = {
+  methodName: "ProcessReceivedState",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.ProcessReceivedStateRequest,
+  responseType: web_api_pb.ProcessReceivedStateResponse
 };
 
 WebApi.SettleAppSession = {
@@ -98,7 +143,7 @@ WebApi.SettleAppSession = {
   requestStream: false,
   responseStream: false,
   requestType: web_api_pb.SettleAppSessionRequest,
-  responseType: web_api_pb.SettleAppSessionResponse
+  responseType: google_protobuf_empty_pb.Empty
 };
 
 WebApi.EndAppSession = {
@@ -106,26 +151,89 @@ WebApi.EndAppSession = {
   service: WebApi,
   requestStream: false,
   responseStream: false,
-  requestType: web_api_pb.EndAppSessionRequest,
+  requestType: web_api_pb.SessionID,
   responseType: google_protobuf_empty_pb.Empty
 };
 
-WebApi.RegisterOracle = {
-  methodName: "RegisterOracle",
+WebApi.GetDeployedAddressForAppSession = {
+  methodName: "GetDeployedAddressForAppSession",
   service: WebApi,
   requestStream: false,
   responseStream: false,
-  requestType: web_api_pb.RegisterOracleRequest,
+  requestType: web_api_pb.SessionID,
+  responseType: web_api_pb.Address
+};
+
+WebApi.GetBooleanResultForAppSession = {
+  methodName: "GetBooleanResultForAppSession",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.GetBooleanResultForAppSessionRequest,
+  responseType: web_api_pb.BooleanResult
+};
+
+WebApi.ApplyActionForAppSession = {
+  methodName: "ApplyActionForAppSession",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.ApplyActionForAppSessionRequest,
   responseType: google_protobuf_empty_pb.Empty
 };
 
-WebApi.ResolveOracle = {
-  methodName: "ResolveOracle",
+WebApi.FinalizeOnActionTimeoutForAppSession = {
+  methodName: "FinalizeOnActionTimeoutForAppSession",
   service: WebApi,
   requestStream: false,
   responseStream: false,
-  requestType: web_api_pb.ResolveOracleRequest,
+  requestType: web_api_pb.SessionID,
   responseType: google_protobuf_empty_pb.Empty
+};
+
+WebApi.GetSettleFinalizedTimeForAppSession = {
+  methodName: "GetSettleFinalizedTimeForAppSession",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.SessionID,
+  responseType: web_api_pb.SettleFinalizedTime
+};
+
+WebApi.GetActionDeadlineForAppSession = {
+  methodName: "GetActionDeadlineForAppSession",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.SessionID,
+  responseType: web_api_pb.ActionDeadline
+};
+
+WebApi.GetStatusForAppSession = {
+  methodName: "GetStatusForAppSession",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.SessionID,
+  responseType: web_api_pb.AppSessionStatus
+};
+
+WebApi.GetStateForAppSession = {
+  methodName: "GetStateForAppSession",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.GetStateForAppSessionRequest,
+  responseType: web_api_pb.AppSessionState
+};
+
+WebApi.GetSeqNumForAppSession = {
+  methodName: "GetSeqNumForAppSession",
+  service: WebApi,
+  requestStream: false,
+  responseStream: false,
+  requestType: web_api_pb.SessionID,
+  responseType: web_api_pb.AppSessionSeqNum
 };
 
 exports.WebApi = WebApi;
@@ -290,44 +398,13 @@ WebApiClient.prototype.sendConditionalPayment = function sendConditionalPayment(
   };
 };
 
-WebApiClient.prototype.createAppSession = function createAppSession(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(WebApi.CreateAppSession, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-WebApiClient.prototype.receiveStates = function receiveStates(requestMessage, metadata) {
+WebApiClient.prototype.subscribeIncomingPayments = function subscribeIncomingPayments(requestMessage, metadata) {
   var listeners = {
     data: [],
     end: [],
     status: []
   };
-  var client = grpc.invoke(WebApi.ReceiveStates, {
+  var client = grpc.invoke(WebApi.SubscribeIncomingPayments, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -360,11 +437,11 @@ WebApiClient.prototype.receiveStates = function receiveStates(requestMessage, me
   };
 };
 
-WebApiClient.prototype.sendState = function sendState(requestMessage, metadata, callback) {
+WebApiClient.prototype.confirmOutgoingPayment = function confirmOutgoingPayment(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(WebApi.SendState, {
+  var client = grpc.unary(WebApi.ConfirmOutgoingPayment, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -391,11 +468,205 @@ WebApiClient.prototype.sendState = function sendState(requestMessage, metadata, 
   };
 };
 
-WebApiClient.prototype.ackState = function ackState(requestMessage, metadata, callback) {
+WebApiClient.prototype.rejectIncomingPayment = function rejectIncomingPayment(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(WebApi.AckState, {
+  var client = grpc.unary(WebApi.RejectIncomingPayment, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.settleIncomingPayment = function settleIncomingPayment(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.SettleIncomingPayment, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.createAppSessionOnDeployedContract = function createAppSessionOnDeployedContract(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.CreateAppSessionOnDeployedContract, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.subscribeAppSessionDisputes = function subscribeAppSessionDisputes(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(WebApi.SubscribeAppSessionDisputes, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.end.forEach(function (handler) {
+        handler();
+      });
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.signOutgoingState = function signOutgoingState(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.SignOutgoingState, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.validateAck = function validateAck(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.ValidateAck, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.processReceivedState = function processReceivedState(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.ProcessReceivedState, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -484,11 +755,11 @@ WebApiClient.prototype.endAppSession = function endAppSession(requestMessage, me
   };
 };
 
-WebApiClient.prototype.registerOracle = function registerOracle(requestMessage, metadata, callback) {
+WebApiClient.prototype.getDeployedAddressForAppSession = function getDeployedAddressForAppSession(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(WebApi.RegisterOracle, {
+  var client = grpc.unary(WebApi.GetDeployedAddressForAppSession, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -515,11 +786,228 @@ WebApiClient.prototype.registerOracle = function registerOracle(requestMessage, 
   };
 };
 
-WebApiClient.prototype.resolveOracle = function resolveOracle(requestMessage, metadata, callback) {
+WebApiClient.prototype.getBooleanResultForAppSession = function getBooleanResultForAppSession(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(WebApi.ResolveOracle, {
+  var client = grpc.unary(WebApi.GetBooleanResultForAppSession, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.applyActionForAppSession = function applyActionForAppSession(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.ApplyActionForAppSession, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.finalizeOnActionTimeoutForAppSession = function finalizeOnActionTimeoutForAppSession(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.FinalizeOnActionTimeoutForAppSession, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.getSettleFinalizedTimeForAppSession = function getSettleFinalizedTimeForAppSession(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.GetSettleFinalizedTimeForAppSession, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.getActionDeadlineForAppSession = function getActionDeadlineForAppSession(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.GetActionDeadlineForAppSession, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.getStatusForAppSession = function getStatusForAppSession(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.GetStatusForAppSession, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.getStateForAppSession = function getStateForAppSession(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.GetStateForAppSession, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+WebApiClient.prototype.getSeqNumForAppSession = function getSeqNumForAppSession(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(WebApi.GetSeqNumForAppSession, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

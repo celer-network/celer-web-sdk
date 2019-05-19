@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Condition | Celer Web SDK API Docs</title>
+	<title>PaymentInfo | Celer Web SDK API Docs</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:200,200i,300,300i,400,400i,700" rel="stylesheet">
@@ -60,10 +60,10 @@
 					<a href="../modules/_client_.html">&quot;client&quot;</a>
 				</li>
 				<li>
-					<a href="_client_.condition.html">Condition</a>
+					<a href="_client_.paymentinfo.html">PaymentInfo</a>
 				</li>
 			</ul>
-			<h1>Interface Condition</h1>
+			<h1>Interface PaymentInfo</h1>
 		</div>
 	</div>
 </header>
@@ -74,7 +74,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Condition</span>
+						<span class="target">PaymentInfo</span>
 					</li>
 				</ul>
 			</section>
@@ -85,11 +85,13 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.condition.html#argsforqueryresult" class="tsd-kind-icon">args<wbr>For<wbr>Query<wbr>Result</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.condition.html#onchainaddress" class="tsd-kind-icon">on<wbr>Chain<wbr>Address</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.condition.html#onchaindeployed" class="tsd-kind-icon">on<wbr>Chain<wbr>Deployed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.condition.html#sessionid" class="tsd-kind-icon">sessionID</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.condition.html#timeout" class="tsd-kind-icon">timeout</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.paymentinfo.html#amountwei" class="tsd-kind-icon">amount<wbr>Wei</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.paymentinfo.html#paymentid" class="tsd-kind-icon">payment<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.paymentinfo.html#paymentjson" class="tsd-kind-icon">payment<wbr>Json</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.paymentinfo.html#receiver" class="tsd-kind-icon">receiver</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.paymentinfo.html#sender" class="tsd-kind-icon">sender</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.paymentinfo.html#status" class="tsd-kind-icon">status</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.paymentinfo.html#tokenaddress" class="tsd-kind-icon">token<wbr>Address</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,77 +100,107 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="argsforqueryresult" class="tsd-anchor"></a>
-					<h3>args<wbr>For<wbr>Query<wbr>Result</h3>
-					<div class="tsd-signature tsd-kind-icon">args<wbr>For<wbr>Query<wbr>Result<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<a name="amountwei" class="tsd-anchor"></a>
+					<h3>amount<wbr>Wei</h3>
+					<div class="tsd-signature tsd-kind-icon">amount<wbr>Wei<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L80">client.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L65">client.ts:65</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The arguments for the on-chain <code>queryResult</code> call</p>
+							<p>The payment amount, in wei</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="onchainaddress" class="tsd-anchor"></a>
-					<h3>on<wbr>Chain<wbr>Address</h3>
-					<div class="tsd-signature tsd-kind-icon">on<wbr>Chain<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="paymentid" class="tsd-anchor"></a>
+					<h3>payment<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">payment<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L78">client.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L57">client.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The address of the deployed contract</p>
+							<p>The payment ID</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="onchaindeployed" class="tsd-anchor"></a>
-					<h3>on<wbr>Chain<wbr>Deployed</h3>
-					<div class="tsd-signature tsd-kind-icon">on<wbr>Chain<wbr>Deployed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="paymentjson" class="tsd-anchor"></a>
+					<h3>payment<wbr>Json</h3>
+					<div class="tsd-signature tsd-kind-icon">payment<wbr>Json<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L76">client.ts:76</a></li>
+							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L67">client.ts:67</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Whether the condition depends on an on-chain deployed contract</p>
+							<p>The supplemental payment JSON</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="sessionid" class="tsd-anchor"></a>
-					<h3>sessionID</h3>
-					<div class="tsd-signature tsd-kind-icon">sessionID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="receiver" class="tsd-anchor"></a>
+					<h3>receiver</h3>
+					<div class="tsd-signature tsd-kind-icon">receiver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L74">client.ts:74</a></li>
+							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L61">client.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The app session ID</p>
+							<p>The address of the receiver</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="timeout" class="tsd-anchor"></a>
-					<h3>timeout</h3>
-					<div class="tsd-signature tsd-kind-icon">timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="sender" class="tsd-anchor"></a>
+					<h3>sender</h3>
+					<div class="tsd-signature tsd-kind-icon">sender<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L82">client.ts:82</a></li>
+							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L59">client.ts:59</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The duration after which the condition will expire</p>
+							<p>The address of the sender</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="status" class="tsd-anchor"></a>
+					<h3>status</h3>
+					<div class="tsd-signature tsd-kind-icon">status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L69">client.ts:69</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The status of the payment</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="tokenaddress" class="tsd-anchor"></a>
+					<h3>token<wbr>Address</h3>
+					<div class="tsd-signature tsd-kind-icon">token<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/celer-network/Celer-Web-SDK/blob/801c3be/src/client.ts#L63">client.ts:63</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The address of the ERC-20 token</p>
 						</div>
 					</div>
 				</section>
@@ -205,36 +237,42 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_client_.booleanresult.html" class="tsd-kind-icon">Boolean<wbr>Result</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_client_.condition.html" class="tsd-kind-icon">Condition</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_client_.disputeinfo.html" class="tsd-kind-icon">Dispute<wbr>Info</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_client_.condition.html" class="tsd-kind-icon">Condition</a>
+						<a href="_client_.paymentinfo.html" class="tsd-kind-icon">Payment<wbr>Info</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_client_.condition.html#argsforqueryresult" class="tsd-kind-icon">args<wbr>For<wbr>Query<wbr>Result</a>
+								<a href="_client_.paymentinfo.html#amountwei" class="tsd-kind-icon">amount<wbr>Wei</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_client_.condition.html#onchainaddress" class="tsd-kind-icon">on<wbr>Chain<wbr>Address</a>
+								<a href="_client_.paymentinfo.html#paymentid" class="tsd-kind-icon">payment<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_client_.condition.html#onchaindeployed" class="tsd-kind-icon">on<wbr>Chain<wbr>Deployed</a>
+								<a href="_client_.paymentinfo.html#paymentjson" class="tsd-kind-icon">payment<wbr>Json</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_client_.condition.html#sessionid" class="tsd-kind-icon">sessionID</a>
+								<a href="_client_.paymentinfo.html#receiver" class="tsd-kind-icon">receiver</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_client_.condition.html#timeout" class="tsd-kind-icon">timeout</a>
+								<a href="_client_.paymentinfo.html#sender" class="tsd-kind-icon">sender</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_client_.paymentinfo.html#status" class="tsd-kind-icon">status</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_client_.paymentinfo.html#tokenaddress" class="tsd-kind-icon">token<wbr>Address</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_client_.disputeinfo.html" class="tsd-kind-icon">Dispute<wbr>Info</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_client_.paymentinfo.html" class="tsd-kind-icon">Payment<wbr>Info</a>
-					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_client_.processreceivedstateresult.html" class="tsd-kind-icon">Process<wbr>Received<wbr>State<wbr>Result</a>
 					</li>

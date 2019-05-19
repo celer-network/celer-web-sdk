@@ -1,32 +1,114 @@
+import isNode from 'detect-node';
 import { grpc } from '@improbable-eng/grpc-web';
 import { NodeHttpTransport } from '@improbable-eng/grpc-web-node-http-transport';
-import isNode from 'detect-node';
-
+import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
+import { WebApi } from './webapi/web_api_pb_service';
 import {
+  ChannelID,
   Condition as ConditionMessage,
   DepositRequest,
-  DepositResponse,
+  TxHash,
   GetBalanceRequest,
   GetBalanceResponse,
   OpenChannelRequest,
-  OpenChannelResponse,
   SendConditionalPaymentRequest,
-  SendConditionalPaymentResponse,
+  PaymentInfo as PaymentInfoMessage,
+  PaymentID,
   WithdrawRequest,
-  WithdrawResponse,
-  CreateAppSessionRequest,
-  CreateAppSessionResponse,
+  CreateAppSessionOnDeployedContractRequest,
+  SessionID,
+  DisputeInfo as DisputeInfoMessage,
   SettleAppSessionRequest,
-  SettleAppSessionResponse,
-  EndAppSessionRequest,
-  RegisterOracleRequest,
-  ResolveOracleRequest,
-  StateMessage,
-  SendStateRequest,
-  AckStateRequest,
-  ReceiveStatesRequest
+  SignOutgoingStateRequest,
+  SignedState,
+  ValidateAckRequest,
+  ProcessReceivedStateResponse,
+  BoolValue,
+  Address,
+  BooleanResult as BooleanResultMessage,
+  GetBooleanResultForAppSessionRequest,
+  ApplyActionForAppSessionRequest,
+  SettleFinalizedTime,
+  ActionDeadline,
+  AppSessionStatus,
+  AppSessionState,
+  AppSessionSeqNum,
+  GetStateForAppSessionRequest
 } from './webapi/web_api_pb';
-import { WebApi } from './webapi/web_api_pb_service';
+
+const ZERO_ADDRESS = '0';
+
+enum TokenType {
+  ETH = 1,
+  ERC20 = 2
+}
+
+export interface Balance {
+  /** The maximum amount that can be sent off-chain, in wei */
+  freeBalance: string;
+  /** The amount locked in pending conditional payments, in wei */
+  lockedBalance: string;
+  /** The maximum amount that can be received off-chain, in wei */
+  receivingCapacity: string;
+}
+
+export interface PaymentInfo {
+  /** The payment ID */
+  paymentId: string;
+  /** The address of the sender */
+  sender: string;
+  /** The address of the receiver */
+  receiver: string;
+  /** The address of the ERC-20 token */
+  tokenAddress: string;
+  /** The payment amount, in wei */
+  amountWei: string;
+  /** The supplemental payment JSON */
+  paymentJson: string;
+  /** The status of the payment */
+  status: number;
+}
+
+export interface Condition {
+  /** The app session ID */
+  sessionID: string;
+  /** Whether the condition depends on an on-chain deployed contract */
+  onChainDeployed: boolean;
+  /** The address of the deployed contract */
+  onChainAddress: string;
+  /** The arguments for the on-chain `queryResult` call */
+  argsForQueryResult: Uint8Array;
+  /** The duration after which the condition will expire */
+  timeout: number;
+}
+
+export interface AppInfo {
+  /** The hex-encoded binary of the app contract */
+  bin: string;
+  /** The address the deployed app contract */
+  address: string;
+}
+
+export interface DisputeInfo {
+  /** The app session ID */
+  sessionID: string;
+  /** The latest sequence number */
+  seqNum: number;
+}
+
+export interface ProcessReceivedStateResult {
+  /** The decoded state */
+  decodedState: Uint8Array;
+  /** The prepared ACK to be sent */
+  preparedAck: Uint8Array;
+}
+
+export interface BooleanResult {
+  /** Whether the app session is finalized */
+  finalized: boolean;
+  /** The boolean result */
+  result: boolean;
+}
 
 export class Client {
   private host: string;
@@ -47,7 +129,12 @@ export class Client {
    * @returns The channel ID
    */
   openEthChannel(amountWei: string, peerAmountWei: string): Promise<string> {
-    return this.openChannel('0', '0', amountWei, peerAmountWei);
+    return this.openChannel(
+      TokenType.ETH,
+      ZERO_ADDRESS,
+      amountWei,
+      peerAmountWei
+    );
   }
 
   /**
@@ -63,7 +150,12 @@ export class Client {
     amountWei: string,
     peerAmountWei: string
   ): Promise<string> {
-    return this.openChannel('1', tokenAddress, amountWei, peerAmountWei);
+    return this.openChannel(
+      TokenType.ERC20,
+      tokenAddress,
+      amountWei,
+      peerAmountWei
+    );
   }
 
   /**
@@ -73,7 +165,7 @@ export class Client {
    * @returns The hash of the deposit transaction
    */
   depositEth(amountWei: string): Promise<string> {
-    return this.deposit('0', '0', amountWei);
+    return this.deposit(TokenType.ETH, ZERO_ADDRESS, amountWei);
   }
 
   /**
@@ -83,27 +175,27 @@ export class Client {
    * @returns The hash of the deposit transaction
    */
   depositErc20(tokenAddress: string, amountWei: string): Promise<string> {
-    return this.deposit('1', tokenAddress, amountWei);
+    return this.deposit(TokenType.ERC20, tokenAddress, amountWei);
   }
 
   /**
    * Withdraws from an ETH channel.
    *
    * @param amountWei - The amount to be withdrawn from the channel, in wei
-   * @returns The hash of the withdrawal transaction (currently unimplemented)
+   * @returns The hash of the withdrawal transaction
    */
   withdrawEth(amountWei: string): Promise<string> {
-    return this.withdraw('0', '0', amountWei);
+    return this.withdraw(TokenType.ETH, ZERO_ADDRESS, amountWei);
   }
 
   /**
    * Withdraws from an ERC-20 token channel.
    *
    * @param amountWei - The amount to be withdrawn from the channel, in wei
-   * @returns The hash of the withdrawal transaction (currently unimplemented)
+   * @returns The hash of the withdrawal transaction
    */
   withdrawErc20(tokenAddress: string, amountWei: string): Promise<string> {
-    return this.withdraw('1', tokenAddress, amountWei);
+    return this.withdraw(TokenType.ERC20, tokenAddress, amountWei);
   }
 
   /**
@@ -112,7 +204,7 @@ export class Client {
    * @returns The balance information
    */
   getEthBalance(): Promise<Balance> {
-    return this.getBalance('0', '0');
+    return this.getBalance(TokenType.ETH, ZERO_ADDRESS);
   }
 
   /**
@@ -122,7 +214,7 @@ export class Client {
    * @returns The balance information
    */
   getErc20Balance(tokenAddress: string): Promise<Balance> {
-    return this.getBalance('1', tokenAddress);
+    return this.getBalance(TokenType.ERC20, tokenAddress);
   }
 
   /**
@@ -130,10 +222,15 @@ export class Client {
    *
    * @param amountWei - The amount to be sent, in wei
    * @param destination - The ETH address of the recipient
-   * @returns The payment ID (currently unimplemented)
+   * @returns The payment ID
    */
   sendEth(amountWei: string, destination: string): Promise<string> {
-    return this.sendConditionalPayment('0', '0', amountWei, destination);
+    return this.sendConditionalPayment(
+      TokenType.ETH,
+      ZERO_ADDRESS,
+      amountWei,
+      destination
+    );
   }
 
   /**
@@ -142,7 +239,7 @@ export class Client {
    * @param tokenAddress - The address of the ERC-20 token contract
    * @param amountWei - The amount to be sent, in wei
    * @param destination - The ETH address of the recipient
-   * @returns The payment ID (currently unimplemented)
+   * @returns The payment ID
    */
   sendErc20(
     tokenAddress: string,
@@ -150,7 +247,7 @@ export class Client {
     destination: string
   ): Promise<string> {
     return this.sendConditionalPayment(
-      '1',
+      TokenType.ERC20,
       tokenAddress,
       amountWei,
       destination
@@ -163,7 +260,7 @@ export class Client {
    * @param amountWei - The amount to be sent, in wei
    * @param destination - The ETH address of the recipient
    * @param condition - The condition for the payment to be issued
-   * @returns The payment ID (currently unimplemented)
+   * @returns The payment ID
    */
   sendEthWithCondition(
     amountWei: string,
@@ -171,8 +268,8 @@ export class Client {
     condition: Condition
   ): Promise<string> {
     return this.sendConditionalPayment(
-      '0',
-      '0',
+      TokenType.ETH,
+      ZERO_ADDRESS,
       amountWei,
       destination,
       condition
@@ -186,7 +283,7 @@ export class Client {
    * @param amountWei - The amount to be sent, in wei
    * @param destination - The ETH address of the recipient
    * @param condition - The condition for the payment to be issued
-   * @returns The payment ID (currently unimplemented)
+   * @returns The payment ID
    */
   sendErc20WithCondition(
     tokenAddress: string,
@@ -195,7 +292,7 @@ export class Client {
     condition: Condition
   ): Promise<string> {
     return this.sendConditionalPayment(
-      '1',
+      TokenType.ERC20,
       tokenAddress,
       amountWei,
       destination,
@@ -204,84 +301,62 @@ export class Client {
   }
 
   /**
-   * Creates an cApp session.
+   * Subscribe to incoming payments.
    *
-   * @param appInfo - The information about the cApp
-   * @param stateValidator - A function returning whether a state sent by the
-   *     counterparty is valid
-   * @returns The session ID
+   * @param callback - The callback to handle incoming payments.
    */
-  createAppSession(
-    appInfo: AppInfo,
-    stateValidator: (state: Uint8Array) => boolean
-  ): Promise<string> {
+  subscribeIncomingPayments(
+    callback: (info: PaymentInfo) => void
+  ): Promise<void> {
     return new Promise((resolve, reject) => {
-      const request = new CreateAppSessionRequest();
-      request.setBin(appInfo.bin);
-      request.setAbi(appInfo.abi);
-      request.setConstructor(appInfo.constructor);
-      request.setNonce(appInfo.nonce);
       try {
-        grpc.invoke(WebApi.CreateAppSession, {
-          request,
+        grpc.invoke(WebApi.SubscribeIncomingPayments, {
+          request: new Empty(),
           host: this.host,
-          onEnd: this.onEnd(reject),
-          onMessage: (response: CreateAppSessionResponse) => {
-            const sessionID = response.getSessionId();
-            const receiveStatesRequest = new ReceiveStatesRequest();
-            receiveStatesRequest.setSessionId(sessionID);
-            const receiveGrpc = grpc.invoke(WebApi.ReceiveStates, {
-              request: receiveStatesRequest,
-              host: this.host,
-              onEnd: _ => {},
-              onMessage: (message: StateMessage) => {
-                const seq = message.getSeq();
-                const valid = stateValidator(message.getState_asU8());
-                if (valid) {
-                  const ackStateRequest = new AckStateRequest();
-                  ackStateRequest.setSessionId(sessionID);
-                  ackStateRequest.setSeq(seq);
-                  grpc.invoke(WebApi.AckState, {
-                    request: ackStateRequest,
-                    host: this.host,
-                    onEnd: (code, _message, _trailers) => {
-                      if (code !== grpc.Code.OK) {
-                        receiveGrpc.close();
-                      }
-                    },
-                    onMessage: _ => {}
-                  });
-                }
-              }
+          onEnd: (
+            code: grpc.Code,
+            msg: string | undefined,
+            trailers: grpc.Metadata
+          ) => {
+            if (code !== grpc.Code.OK) {
+              console.log(
+                'Subscribe incoming payments gRPC error:',
+                code,
+                msg,
+                trailers
+              );
+            }
+          },
+          onMessage: (message: PaymentInfoMessage) => {
+            callback({
+              paymentId: message.getPaymentId(),
+              sender: message.getSender(),
+              receiver: message.getReceiver(),
+              tokenAddress: message.getTokenAddress(),
+              amountWei: message.getAmountWei(),
+              paymentJson: message.getPaymentJson(),
+              status: message.getStatus()
             });
-            resolve(sessionID);
           }
         });
       } catch (e) {
         reject(e);
       }
+      resolve();
     });
   }
 
   /**
-   * Sends a cApp state.
+   * Confirms an outgoing payment.
    *
-   * @param sessionID - The ID for the cApp session
-   * @param destination - The ETH address of the counterparty
-   * @param state - The state represented in a byte array
+   * @param paymentID - The payment ID
    */
-  sendState(
-    sessionID: string,
-    destination: string,
-    state: Uint8Array
-  ): Promise<void> {
+  confirmOutgoingPayment(paymentID: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      const request = new SendStateRequest();
-      request.setSessionId(sessionID);
-      request.setDestination(destination);
-      request.setState(state);
+      const request = new PaymentID();
+      request.setPaymentId(paymentID);
       try {
-        grpc.invoke(WebApi.SendState, {
+        grpc.invoke(WebApi.ConfirmOutgoingPayment, {
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -296,22 +371,235 @@ export class Client {
   }
 
   /**
-   * Settles a cApp session by deploying the cApp contract on-chain.
+   * Rejects an incoming payment.
    *
-   * @param sessionID - The ID for the cApp session
-   * @returns The address of the deployed cApp contract
+   * @param paymentID - The payment ID
    */
-  settleAppSession(sessionID: string): Promise<string> {
+  rejectIncomingPayment(paymentID: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const request = new PaymentID();
+      request.setPaymentId(paymentID);
+      try {
+        grpc.invoke(WebApi.RejectIncomingPayment, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: _ => {
+            resolve();
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Settles an incoming payment on-chain.
+   *
+   * @param paymentID - The payment ID
+   */
+  settleIncomingPayment(paymentID: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const request = new PaymentID();
+      request.setPaymentId(paymentID);
+      try {
+        grpc.invoke(WebApi.SettleIncomingPayment, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: _ => {
+            resolve();
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Creates an app session based on a deployed contract.
+   *
+   * @param appInfo - The information about the app
+   * @param stateValidator - A function returning whether a state sent by the
+   *     counterparty is valid
+   * @returns The session ID
+   */
+  createAppSessionOnDeployedContract(
+    appInfo: AppInfo,
+    nonceSeed: string,
+    participants: string[]
+  ): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const request = new CreateAppSessionOnDeployedContractRequest();
+      request.setBin(appInfo.bin);
+      request.setAddress(appInfo.address);
+      request.setNonceSeed(nonceSeed);
+      request.setParticipantsList(participants);
+      try {
+        grpc.invoke(WebApi.CreateAppSessionOnDeployedContract, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: SessionID) => {
+            resolve(response.getSessionId());
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Subscribe to app session disputes.
+   *
+   * @param sessionID - The session ID
+   * @param callback - The callback to handle disputes
+   */
+  subscribeAppSessionDisputes(
+    sessionID: string,
+    callback: (info: DisputeInfo) => void
+  ) {
+    return new Promise((resolve, reject) => {
+      const request = new SessionID();
+      request.setSessionId(sessionID);
+      try {
+        grpc.invoke(WebApi.SubscribeAppSessionDisputes, {
+          request,
+          host: this.host,
+          onEnd: (
+            code: grpc.Code,
+            msg: string | undefined,
+            trailers: grpc.Metadata
+          ) => {
+            if (code !== grpc.Code.OK) {
+              console.log(
+                'Subscribe app session disputes gRPC error:',
+                code,
+                msg,
+                trailers
+              );
+            }
+          },
+          onMessage: (message: DisputeInfoMessage) => {
+            callback({
+              sessionID: message.getSessionId(),
+              seqNum: message.getSeqNum()
+            });
+          }
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  }
+
+  /**
+   * Signs an outgoing app state.
+   *
+   * @param sessionID - The ID for the app session
+   * @param state - The state represented in a byte array
+   * @returns The signed state ready to be sent
+   */
+  signOutgoingState(sessionID: string, state: Uint8Array): Promise<Uint8Array> {
+    return new Promise((resolve, reject) => {
+      const request = new SignOutgoingStateRequest();
+      request.setSessionId(sessionID);
+      request.setState(state);
+      try {
+        grpc.invoke(WebApi.SignOutgoingState, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: SignedState) => {
+            resolve(response.getSignedState_asU8());
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Validates a received ACK for a sent app state.
+   *
+   * @param sessionID - The ID for the app session
+   * @param envelope - The envelope containing the ACK message
+   * @returns The signed state ready to be sent
+   */
+  validateAck(sessionID: string, envelope: Uint8Array): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const request = new ValidateAckRequest();
+      request.setSessionId(sessionID);
+      request.setEnvelope(envelope);
+      try {
+        grpc.invoke(WebApi.ValidateAck, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: BoolValue) => {
+            resolve(response.getValue());
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Processes a received app state message.
+   *
+   * @param sessionID - The ID for the app session
+   * @param envelope - The envelope containing the state message.
+   * @returns The decoded state and the prepared ACK to be sent.
+   */
+  processReceivedState(
+    sessionID: string,
+    envelope: Uint8Array
+  ): Promise<ProcessReceivedStateResult> {
+    return new Promise((resolve, reject) => {
+      const request = new ValidateAckRequest();
+      request.setSessionId(sessionID);
+      request.setEnvelope(envelope);
+      try {
+        grpc.invoke(WebApi.ProcessReceivedState, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: ProcessReceivedStateResponse) => {
+            resolve({
+              decodedState: response.getDecodedState_asU8(),
+              preparedAck: response.getPreparedAck_asU8()
+            });
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Settles a app session by submitting the latest state proof on-chain.
+   *
+   * @param sessionID - The ID for the app session
+   */
+  settleAppSession(sessionID: string, stateProof: Uint8Array): Promise<void> {
     return new Promise((resolve, reject) => {
       const request = new SettleAppSessionRequest();
       request.setSessionId(sessionID);
+      request.setStateProof(stateProof);
       try {
         grpc.invoke(WebApi.SettleAppSession, {
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
-          onMessage: (response: SettleAppSessionResponse) => {
-            resolve(response.getContractAddress());
+          onMessage: _ => {
+            resolve();
           }
         });
       } catch (e) {
@@ -321,45 +609,16 @@ export class Client {
   }
 
   /**
-   * Ends a cApp session and resolves all conditional payments in ETH associated
-   * with the session.
+   * Ends a app session
    *
-   * @param sessionID - The ID for the cApp session
-   * @param winnerIndex - The index of the winner
+   * @param sessionID - The ID for the app session
    */
-  endAppSessionForEth(sessionID: string, winnerIndex: string): Promise<void> {
-    return this.endAppSession(sessionID, '0', '0', winnerIndex);
-  }
-
-  /**
-   * Ends a cApp session and resolves all conditional payments in an ERC-20
-   * token associated with the session.
-   *
-   * @param sessionID - The ID for the cApp session
-   * @param tokenAddress - The address of the ERC-20 token contract
-   * @param winnerIndex - The index of the winner
-   */
-  endAppSessionForErc20(
-    sessionID: string,
-    tokenAddress: string,
-    winnerIndex: string
-  ): Promise<void> {
-    return this.endAppSession(sessionID, '1', tokenAddress, winnerIndex);
-  }
-
-  /**
-   * Registers an on-chain oracle
-   *
-   * @param oracleAddress - The address of the oracle contract
-   * @param abi - The ABI of the oracle contract
-   */
-  registerOracle(oracleAddress: string, abi: string): Promise<void> {
+  endAppSession(sessionID: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      const request = new RegisterOracleRequest();
-      request.setOracleAddress(oracleAddress);
-      request.setAbi(abi);
+      const request = new SessionID();
+      request.setSessionId(sessionID);
       try {
-        grpc.invoke(WebApi.RegisterOracle, {
+        grpc.invoke(WebApi.EndAppSession, {
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
@@ -374,30 +633,245 @@ export class Client {
   }
 
   /**
-   * Resolves all conditional payments in ETH associated with an on-chain oracle
+   * Gets the address of the deployed app contract.
    *
-   * @param oracleAddress - The address of the oracle contract
+   * @param sessionID - The ID for the app session
+   * @returns The address.
    */
-  resolveOracleForEth(oracleAddress: string): Promise<void> {
-    return this.resolveOracle(oracleAddress, '0', '0');
+  getDeployedAddressForAppSession(sessionID: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const request = new SessionID();
+      request.setSessionId(sessionID);
+      try {
+        grpc.invoke(WebApi.GetDeployedAddressForAppSession, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: Address) => {
+            resolve(response.getAddress());
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   /**
-   * Resolves all conditional payments in an ERC-20 token associated with an
-   * on-chain oracle
+   * Calls `getResult` on-chain for an app session.
    *
-   * @param oracleAddress - The address of the oracle contract
-   * @param tokenAddress - The address of the ERC-20 token contract
+   * @param sessionID - The ID for the app session
+   * @param query - The query bytes
+   * @returns The boolean result
    */
-  resolveOracleForErc20(
-    oracleAddress: string,
-    tokenAddress: string
+  getBooleanResultForAppSession(
+    sessionID: string,
+    query: Uint8Array
+  ): Promise<BooleanResult> {
+    return new Promise((resolve, reject) => {
+      const request = new GetBooleanResultForAppSessionRequest();
+      request.setSessionId(sessionID);
+      request.setQuery(query);
+      try {
+        grpc.invoke(WebApi.GetBooleanResultForAppSession, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: BooleanResultMessage) => {
+            resolve({
+              finalized: response.getFinalized(),
+              result: response.getResult()
+            });
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Sends `applyAction` on-chain for an app session.
+   *
+   * @param sessionID - The ID for the app session
+   * @param action - The action bytes
+   */
+  applyActionForAppSession(
+    sessionID: string,
+    action: Uint8Array
   ): Promise<void> {
-    return this.resolveOracle(oracleAddress, '1', tokenAddress);
+    return new Promise((resolve, reject) => {
+      const request = new ApplyActionForAppSessionRequest();
+      request.setSessionId(sessionID);
+      request.setAction(action);
+      try {
+        grpc.invoke(WebApi.ApplyActionForAppSession, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: _ => {
+            resolve();
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Sends `finalizeOnActionTimeout` on-chain for an app session.
+   *
+   * @param sessionID - The ID for the app session
+   */
+  finalizeOnActionTimeoutForAppSession(sessionID: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const request = new SessionID();
+      request.setSessionId(sessionID);
+      try {
+        grpc.invoke(WebApi.FinalizeOnActionTimeoutForAppSession, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: _ => {
+            resolve();
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Calls `getSettleFinalizedTime` on-chain for an app session.
+   *
+   * @param sessionID - The ID for the app session
+   * @returns The block number at which the settlement will be finalized
+   */
+  getSettleFinalizedTimeForAppSession(sessionID: string): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const request = new SessionID();
+      request.setSessionId(sessionID);
+      try {
+        grpc.invoke(WebApi.GetSettleFinalizedTimeForAppSession, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: SettleFinalizedTime) => {
+            resolve(response.getTime());
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Calls `getActionDeadline` on-chain for an app session.
+   *
+   * @param sessionID - The ID for the app session
+   * @returns The action deadline
+   */
+  getActionDeadlineForAppSession(sessionID: string): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const request = new SessionID();
+      request.setSessionId(sessionID);
+      try {
+        grpc.invoke(WebApi.GetActionDeadlineForAppSession, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: ActionDeadline) => {
+            resolve(response.getDeadline());
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Calls `getStatus` on-chain for an app session.
+   *
+   * @param sessionID - The ID for the app session
+   * @returns The status of an app session
+   */
+  getStatusForAppSession(sessionID: string): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const request = new SessionID();
+      request.setSessionId(sessionID);
+      try {
+        grpc.invoke(WebApi.GetStatusForAppSession, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: AppSessionStatus) => {
+            resolve(response.getStatus());
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Calls `getState` on-chain for an app session.
+   *
+   * @param sessionID - The ID for the app session
+   * @param key - The key of the state
+   * @returns The status of an app session
+   */
+  getStateForAppSession(sessionID: string, key: number): Promise<Uint8Array> {
+    return new Promise((resolve, reject) => {
+      const request = new GetStateForAppSessionRequest();
+      request.setSessionId(sessionID);
+      request.setKey(key);
+      try {
+        grpc.invoke(WebApi.GetStateForAppSession, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: AppSessionState) => {
+            resolve(response.getState_asU8());
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Calls `getSeqNum` on-chain for an app session.
+   *
+   * @param sessionID - The ID for the app session
+   * @returns The current sequence number of the app session
+   */
+  getSeqNumForAppSession(sessionID: string): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const request = new SessionID();
+      request.setSessionId(sessionID);
+      try {
+        grpc.invoke(WebApi.GetSeqNumForAppSession, {
+          request,
+          host: this.host,
+          onEnd: this.onEnd(reject),
+          onMessage: (response: AppSessionSeqNum) => {
+            resolve(response.getSeqNum());
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   private openChannel(
-    tokenType: string,
+    tokenType: TokenType,
     tokenAddress: string,
     amountWei: string,
     peerAmountWei: string
@@ -413,7 +887,7 @@ export class Client {
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
-          onMessage: (response: OpenChannelResponse) => {
+          onMessage: (response: ChannelID) => {
             resolve(response.getChannelId());
           }
         });
@@ -424,7 +898,7 @@ export class Client {
   }
 
   private deposit(
-    tokenType: string,
+    tokenType: TokenType,
     tokenAddress: string,
     amountWei: string
   ): Promise<string> {
@@ -438,7 +912,7 @@ export class Client {
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
-          onMessage: (response: DepositResponse) => {
+          onMessage: (response: TxHash) => {
             resolve(response.getTxHash());
           }
         });
@@ -449,7 +923,7 @@ export class Client {
   }
 
   private withdraw(
-    tokenType: string,
+    tokenType: TokenType,
     tokenAddress: string,
     amountWei: string
   ): Promise<string> {
@@ -463,7 +937,7 @@ export class Client {
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
-          onMessage: (response: WithdrawResponse) => {
+          onMessage: (response: TxHash) => {
             resolve(response.getTxHash());
           }
         });
@@ -474,7 +948,7 @@ export class Client {
   }
 
   private getBalance(
-    tokenType: string,
+    tokenType: TokenType,
     tokenAddress: string
   ): Promise<Balance> {
     return new Promise((resolve, reject) => {
@@ -501,7 +975,7 @@ export class Client {
   }
 
   private sendConditionalPayment(
-    tokenType: string,
+    tokenType: TokenType,
     tokenAddress: string,
     amountWei: string,
     destination: string,
@@ -515,11 +989,11 @@ export class Client {
       request.setDestination(destination);
       if (condition) {
         const conditionMessage = new ConditionMessage();
-        conditionMessage.setDeadline(condition.deadline);
         conditionMessage.setSessionId(condition.sessionID);
-        conditionMessage.setArgsForIsFinalized(condition.argsForIsFinalized);
-        conditionMessage.setArgsForQueryResult(condition.argsForQueryResult);
         conditionMessage.setOnChainDeployed(condition.onChainDeployed);
+        conditionMessage.setOnChainAddress(condition.onChainAddress);
+        conditionMessage.setArgsForQueryResult(condition.argsForQueryResult);
+        conditionMessage.setTimeout(condition.timeout);
         request.setCondition(conditionMessage);
       }
       try {
@@ -527,60 +1001,8 @@ export class Client {
           request,
           host: this.host,
           onEnd: this.onEnd(reject),
-          onMessage: (response: SendConditionalPaymentResponse) => {
+          onMessage: (response: PaymentID) => {
             resolve(response.getPaymentId());
-          }
-        });
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-
-  private endAppSession(
-    sessionID: string,
-    tokenType: string,
-    tokenAddress: string,
-    winnerIndex: string
-  ): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const request = new EndAppSessionRequest();
-      request.setSessionId(sessionID);
-      request.setTokenType(tokenType);
-      request.setTokenAddress(tokenAddress);
-      request.setWinnerIndex(winnerIndex);
-      try {
-        grpc.invoke(WebApi.EndAppSession, {
-          request,
-          host: this.host,
-          onEnd: this.onEnd(reject),
-          onMessage: _ => {
-            resolve();
-          }
-        });
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-
-  private resolveOracle(
-    oracleAddress: string,
-    tokenType: string,
-    tokenAddress: string
-  ): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const request = new ResolveOracleRequest();
-      request.setOracleAddress(oracleAddress);
-      request.setTokenType(tokenType);
-      request.setTokenAddress(tokenAddress);
-      try {
-        grpc.invoke(WebApi.ResolveOracle, {
-          request,
-          host: this.host,
-          onEnd: this.onEnd(reject),
-          onMessage: _ => {
-            resolve();
           }
         });
       } catch (e) {
@@ -606,42 +1028,9 @@ export class Client {
       trailers: grpc.Metadata
     ) => {
       if (code !== grpc.Code.OK) {
-        console.log('gRPC error:', code, msg, trailers);
+        console.log('gRPC error: ', code, msg, trailers);
         reject({ code, msg, trailers });
       }
     };
   }
-}
-
-export interface Balance {
-  /** The maximum amount that can be sent off-chain, in wei */
-  freeBalance: string;
-  /** The amount locked in pending conditional payments, in wei */
-  lockedBalance: string;
-  /** The maximum amount that can be received off-chain, in wei */
-  receivingCapacity: string;
-}
-
-export interface Condition {
-  /** The block number at which the condition will expire */
-  deadline: string;
-  /** The cApp session ID */
-  sessionID: string;
-  /** The arguments for the on-chain `isFinalized` call */
-  argsForIsFinalized: Uint8Array;
-  /** The arguments for the on-chain `queryResult` call */
-  argsForQueryResult: Uint8Array;
-  /** Whether the condition depends on an on-chain deployed contract */
-  onChainDeployed: boolean;
-}
-
-export interface AppInfo {
-  /** The hex-encoded binary of the cApp contract */
-  bin: string;
-  /** The ABI JSON string of the cApp contract */
-  abi: string;
-  /** The hex-encoded arguments for the constructor of the cApp contract */
-  constructor: string;
-  /** A unique ID for the cApp agreed upon by both parties */
-  nonce: string;
 }
